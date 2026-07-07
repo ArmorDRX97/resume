@@ -1,0 +1,41 @@
+---
+import { ArrowRight } from '@lucide/astro';
+import { withBase } from '@/utils/path';
+
+type Variant = 'primary' | 'secondary' | 'ghost' | 'light';
+interface Props {
+  href?: string;
+  variant?: Variant;
+  class?: string;
+  target?: string;
+}
+
+const {
+  href = '#',
+  variant = 'primary',
+  class: className = '',
+  target,
+} = Astro.props as Props;
+
+const styles: Record<Variant, string> = {
+  primary:
+    'bg-ink text-white shadow-glow hover:-translate-y-0.5 hover:bg-slate-900',
+  secondary:
+    'border border-slate-200 bg-white/80 text-ink hover:-translate-y-0.5 hover:border-blue/40 hover:text-blue',
+  ghost:
+    'text-ink hover:text-blue',
+  light:
+    'border border-white/15 bg-white text-ink hover:-translate-y-0.5',
+};
+const link = href.startsWith('/') ? withBase(href) : href;
+---
+
+<a
+  href={link}
+  target={target}
+  rel={target === '_blank' ? 'noreferrer' : undefined}
+  class={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-bold transition ${styles[variant] ?? styles.primary} ${className}`}
+>
+  <slot />
+  <ArrowRight size={16} aria-hidden="true" />
+</a>

@@ -1,0 +1,19 @@
+---
+import MockupFrame from './MockupFrame.astro';
+type GalleryItem = {
+  title: string;
+  variant: 'dashboard' | 'website' | 'mobile' | 'brand' | 'landing' | 'charts' | 'system';
+};
+const { items = [] } = Astro.props as { items?: GalleryItem[] };
+const fallback: GalleryItem[] = items.length
+  ? items
+  : [
+      { title: 'Dashboard structure', variant: 'dashboard' },
+      { title: 'Component library', variant: 'system' },
+      { title: 'Mobile flow', variant: 'mobile' },
+    ];
+---
+
+<div class="grid gap-5 md:grid-cols-3">
+  {fallback.map((item) => <MockupFrame title={item.title} variant={item.variant} />)}
+</div>

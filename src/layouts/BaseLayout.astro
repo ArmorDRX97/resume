@@ -1,0 +1,40 @@
+---
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import { withBase } from '@/utils/path';
+import '@/styles/global.css';
+
+const {
+  title = 'Timur Khairullin - UI/UX Designer & Product Developer',
+  description = 'Portfolio of Timur Khairullin, UI/UX Designer & Product Developer from Astana. Product interfaces, design systems, corporate systems, web design and frontend implementation.',
+  ogImage = '/images/og/default.webp',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={withBase('/favicon.svg')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage.startsWith('/') ? withBase(ogImage) : ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import '@/scripts/motion';
+    </script>
+  </body>
+</html>

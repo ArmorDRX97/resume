@@ -1,0 +1,11 @@
+---
+const { src = '', poster = '', title = 'Video preview' } = Astro.props;
+---
+
+<div class="overflow-hidden rounded-lg border border-slate-200 bg-slate-950 shadow-soft">
+  {src ? (
+    <video src={src} poster={poster} title={title} autoplay muted loop playsinline />
+  ) : (
+    <div class="grid aspect-video place-items-center text-sm font-semibold text-slate-400">{title} placeholder</div>
+  )}
+</div>

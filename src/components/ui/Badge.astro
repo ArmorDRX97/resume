@@ -1,0 +1,11 @@
+---
+const { tone = 'light' } = Astro.props;
+const styles =
+  tone === 'dark'
+    ? 'border-white/15 bg-white/10 text-white'
+    : 'border-slate-200 bg-white/70 text-slate-700';
+---
+
+<span class={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${styles}`}>
+  <slot />
+</span>

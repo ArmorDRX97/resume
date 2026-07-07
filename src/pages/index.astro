@@ -1,0 +1,361 @@
+---
+import {
+  ArrowDown,
+  ArrowUpRight,
+  Bot,
+  BrainCircuit,
+  BriefcaseBusiness,
+  Code2,
+  ExternalLink,
+  Gauge,
+  Layers3,
+  LayoutDashboard,
+  MonitorSmartphone,
+  PenTool,
+  Send,
+  Sparkles,
+  Workflow,
+  Zap,
+} from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import Badge from '@/components/ui/Badge.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import MockupFrame from '@/components/media/MockupFrame.astro';
+import { strengths, tools } from '@/data/skills';
+import { contact } from '@/data/contact';
+import { withBase } from '@/utils/path';
+
+const stats = [
+  { value: '8+', label: 'лет в UI/UX, digital и frontend' },
+  { value: '20+', label: 'коммерческих проектов и интерфейсов' },
+  { value: '3 в 1', label: 'дизайн, frontend и AI-подход' },
+];
+
+const portfolioCards = [
+  {
+    title: 'Сложные кабинеты и системы',
+    text: 'ERP, CRM, государственные платформы, роли, таблицы, статусы, графики и интерфейсы для команд, которые работают с данными каждый день.',
+    href: '/cases/',
+    visual: 'system',
+    tag: 'Product UI',
+  },
+  {
+    title: 'Сайты, лендинги и визуальная подача',
+    text: 'Корпоративные сайты, посадочные страницы, бренд-материалы, презентации и digital-графика, которые можно сразу показывать клиентам.',
+    href: '/cases/',
+    visual: 'website',
+    tag: 'Web / Visual',
+  },
+  {
+    title: 'Кликабельные HTML-мокапы',
+    text: 'Не только макет в Figma, а интерактивная реализация на HTML, CSS и JS: с фейковыми данными, состояниями и демонстрацией сценариев.',
+    href: '/cases/',
+    visual: 'charts',
+    tag: 'Prototype',
+  },
+] as const;
+
+const offerCards = [
+  {
+    icon: PenTool,
+    title: 'Дизайн интерфейсов',
+    text: 'UX-структура, UI-kit, дизайн-система, мобильные и web-интерфейсы, лендинги, презентации и бренд-материалы.',
+  },
+  {
+    icon: Code2,
+    title: 'Frontend и интерактив',
+    text: 'HTML/CSS/JS, TypeScript, React, Vue, адаптивные страницы, анимации, состояния интерфейса и кликабельные прототипы.',
+  },
+  {
+    icon: Bot,
+    title: 'AI workflow',
+    text: 'AI помогает ускорять исследования, тексты, визуальные концепции, код, генерацию данных, проверку гипотез и production-рутину.',
+  },
+  {
+    icon: Workflow,
+    title: 'Продуктовая связка',
+    text: 'Связываю бизнес-задачи, пользовательские сценарии, аналитику, дизайн, разработку и дальнейшее развитие продукта.',
+  },
+];
+
+const capabilityIcons = [LayoutDashboard, MonitorSmartphone, Layers3, BrainCircuit, Gauge, Zap];
+
+const aiWorkflow = [
+  'исследование и разбор задачи',
+  'структура, сценарии и user flow',
+  'визуальные концепции и moodboard',
+  'тексты, промпты и microcopy',
+  'код, ревью и быстрые прототипы',
+];
+---
+
+<BaseLayout>
+  <section class="hero-wave-section relative isolate overflow-hidden bg-graphite text-white">
+    <canvas data-hero-scene class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+    <div class="hero-grid pointer-events-none absolute inset-0"></div>
+    <div class="noise-overlay pointer-events-none absolute inset-0 opacity-20"></div>
+    <div class="hero-readability pointer-events-none absolute inset-0"></div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-graphite to-transparent"></div>
+
+    <div class="container relative z-10 flex min-h-[calc(100vh-64px)] flex-col items-center justify-center py-20 text-center">
+      <div class="reveal mx-auto flex max-w-3xl flex-wrap justify-center gap-2">
+        <Badge tone="dark">{contact.city}</Badge>
+        <Badge tone="dark">Remote / project ready</Badge>
+        <Badge tone="dark">8+ years</Badge>
+      </div>
+
+      <p class="reveal eyebrow mt-8 text-cyan">Timur Khairullin</p>
+      <h1 class="reveal mt-4 max-w-5xl text-balance text-4xl font-black leading-none tracking-normal text-white sm:text-5xl md:text-7xl">
+        UI/UX Designer & Product Developer
+      </h1>
+      <p class="reveal mt-6 max-w-3xl text-lg leading-8 text-slate-300 md:text-xl md:leading-9">
+        Проектирую интерфейсы, дизайн-системы и цифровые продукты. Пишу frontend, собираю кликабельные HTML-мокапы и профессионально использую AI, чтобы быстрее доводить идеи до понятной реализации.
+      </p>
+
+      <div class="reveal mt-8 flex flex-wrap justify-center gap-3">
+        <Button href="/cases/" variant="light"><BriefcaseBusiness size={16} /> Кейсы</Button>
+        <Button href="/skills/" variant="secondary"><Sparkles size={16} /> Навыки</Button>
+        <Button href={contact.telegram} target="_blank" variant="secondary"><Send size={16} /> Telegram</Button>
+      </div>
+
+      <div class="reveal mt-12 grid w-full max-w-4xl gap-3 sm:grid-cols-3">
+        {stats.map((item) => (
+          <div class="glass-panel rounded-lg p-4">
+            <p class="text-3xl font-black text-white">{item.value}</p>
+            <p class="mt-2 text-sm leading-5 text-slate-300">{item.label}</p>
+          </div>
+        ))}
+      </div>
+
+      <a href="#portfolio" class="reveal mt-12 inline-flex items-center gap-2 text-sm font-bold text-slate-400 transition hover:text-cyan">
+        <ArrowDown size={16} aria-hidden="true" />
+        Смотреть структуру портфолио
+      </a>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+      <div class="about-photo-card reveal">
+        <div class="about-photo-frame">
+          <img src={withBase('/images/photo.png')} alt="Тимур Хайруллин" loading="lazy" />
+          <span class="about-photo-scan" aria-hidden="true"></span>
+          <div class="about-photo-caption">
+            <span>8+ лет в digital</span>
+            <span>UI/UX + Frontend + AI</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <p class="eyebrow">About</p>
+        <h2 class="mt-4 max-w-4xl text-balance text-2xl font-black leading-tight text-ink md:text-4xl">
+          Проектирую интерфейсы, которые можно понять, проверить и передать в разработку
+        </h2>
+        <div class="mt-6 grid gap-4 text-lg leading-8 text-muted">
+          <p>
+            Я Тимур Хайруллин, UI/UX Designer & Product Developer. Помогаю превращать идеи, сервисы и внутренние процессы в понятные цифровые продукты: сайты, кабинеты, дашборды, админки и дизайн-системы.
+          </p>
+          <p>
+            В работе соединяю продуктовую логику, визуальный дизайн, frontend и AI. Поэтому результат можно оценить не только как картинку, но и как живой сценарий: с данными, состояниями, адаптивом и структурой, которую удобно передавать команде разработки.
+          </p>
+        </div>
+        <div class="mt-8 grid gap-3 sm:grid-cols-2">
+          {[
+            [MonitorSmartphone, 'Интерфейсы и дизайн-системы'],
+            [Code2, 'HTML-мокапы и frontend'],
+            [BrainCircuit, 'AI workflow для ускорения'],
+            [BriefcaseBusiness, 'Продуктовая подача решений'],
+          ].map(([Icon, label]) => (
+            <div class="about-signal">
+              <Icon size={18} aria-hidden="true" />
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white" id="portfolio">
+    <div class="container">
+      <div class="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <SectionTitle eyebrow="Portfolio" title="От идеи до интерфейса, готового к разработке" text="В каждом направлении видно не только визуальный стиль, но и логику интерфейса: сценарии, структуру, работу с данными, состояния экранов и формат, в котором результат удобно оценить до разработки или запуска" />
+        <Button href="/cases/" variant="secondary">Все кейсы</Button>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-3" data-portfolio-grid>
+        {portfolioCards.map((card) => (
+          <a href={withBase(card.href)} class="portfolio-card magnetic-card group grid h-full rounded-lg border border-slate-200 bg-white p-3 shadow-soft" data-portfolio-card>
+            <MockupFrame variant={card.visual} title={card.tag} />
+            <div class="grid gap-4 p-4">
+              <div class="flex items-center justify-between gap-4">
+                <Badge>{card.tag}</Badge>
+                <ArrowUpRight size={18} class="text-slate-400 transition group-hover:text-blue" />
+              </div>
+              <h3 class="text-2xl font-black leading-tight text-ink">{card.title}</h3>
+              <p class="leading-7 text-muted">{card.text}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-slate-950 text-white">
+    <div class="container expertise-layout">
+      <div class="reveal">
+        <SectionTitle dark eyebrow="Expertise" title="Дизайн, разработка и AI в одной рабочей системе" text="Интерфейс проектируется не только как красивый макет, а как будущий рабочий продукт: с данными, состояниями, компонентами, адаптивом и реальными сценариями" />
+        <div class="mt-8 grid gap-3">
+          {[
+            ['UI/UX и дизайн-системы', '95%'],
+            ['Frontend / прототипы', '86%'],
+            ['AI workflow', '92%'],
+            ['Visual design', '90%'],
+          ].map(([label, value]) => (
+            <div class="skill-line rounded-lg border border-white/10 bg-white/8 p-4">
+              <div class="mb-3 flex items-center justify-between gap-4 text-sm font-bold">
+                <span>{label}</span>
+                <span class="text-slate-400">{value}</span>
+              </div>
+              <div class="h-2 overflow-hidden rounded-full bg-white/10">
+                <span class="block h-full rounded-full bg-gradient-to-r from-blue via-cyan to-lime-300" data-skill-bar style={`--skill-target: ${value}; width: 0%`}></span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        {offerCards.map((item) => {
+          const Icon = item.icon;
+          return (
+            <article class="reveal magnetic-card rounded-lg border border-white/10 bg-white/8 p-6 backdrop-blur">
+              <div class="grid size-12 place-items-center rounded-lg bg-white text-graphite">
+                <Icon size={22} aria-hidden="true" />
+              </div>
+              <h3 class="mt-5 text-xl font-black text-white">{item.title}</h3>
+              <p class="mt-3 leading-7 text-slate-300">{item.text}</p>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-slate-50">
+    <div class="container">
+      <SectionTitle eyebrow="Capabilities" title="Что я закрываю на проекте" text="Можно закрыть отдельный этап или весь цикл: UX, UI, дизайн-систему, frontend, интерактивный прототип, AI-ускорение, презентацию или визуальное сопровождение продукта" />
+      <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {strengths.map((item, index) => {
+          const Icon = capabilityIcons[index] ?? Sparkles;
+          return (
+            <article class="reveal magnetic-card rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
+              <div class="mb-5 flex items-center justify-between">
+                <span class="grid size-11 place-items-center rounded-lg bg-slate-950 text-white">
+                  <Icon size={22} aria-hidden="true" />
+                </span>
+                <Sparkles size={20} class="text-blue" />
+              </div>
+              <h3 class="text-xl font-black text-ink">{item.title}</h3>
+              <p class="mt-3 leading-7 text-muted">{item.text}</p>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container ai-layout">
+      <div class="reveal">
+        <SectionTitle eyebrow="AI workflow" title="AI использую не как игрушку, а как профессиональный ускоритель" text="AI помогает быстрее исследовать, формулировать, визуализировать, писать код и проверять гипотезы. Финальное решение остается дизайнерским и инженерным, а не случайной генерацией" />
+        <div class="mt-8 flex flex-wrap gap-2">
+          {tools.filter((tool) => ['ChatGPT', 'Claude', 'Codex', 'Antigravity', 'Image generation', 'Video generation'].includes(tool)).map((tool) => <Badge>{tool}</Badge>)}
+        </div>
+      </div>
+
+      <div class="reveal rounded-lg border border-slate-200 bg-slate-950 p-5 text-white shadow-soft">
+        <div class="mb-5 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-bold text-cyan">AI production map</p>
+            <h3 class="mt-1 text-2xl font-black">От идеи до прототипа</h3>
+          </div>
+          <Gauge size={30} class="text-lime-200" />
+        </div>
+        <div class="grid gap-3">
+          {aiWorkflow.map((item, index) => (
+            <div class="ai-step-grid rounded-lg border border-white/10 bg-white/8 p-3">
+              <span class="grid size-8 place-items-center rounded bg-white text-xs font-black text-graphite">{index + 1}</span>
+              <span class="text-sm font-semibold text-slate-200">{item}</span>
+              <span class="h-8 w-16 rounded bg-gradient-to-r from-blue via-cyan to-lime-300"></span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark-band">
+    <div class="container mockup-feature">
+      <div class="reveal">
+        <p class="eyebrow text-cyan">Signature approach</p>
+        <h2 class="mt-4 max-w-4xl text-balance text-3xl font-black leading-tight text-white md:text-4xl">
+          Click, not show: интерфейс лучше оценивать в действии
+        </h2>
+        <p class="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+          Вместо статичной презентации можно получить кликабельный HTML/CSS/JS-мокап: сайт, кабинет, дашборд, админку или отдельный сценарий продукта. Его можно открыть по ссылке, показать команде или клиенту, наполнить фейковыми данными и проверить ощущение почти готового интерфейса.
+        </p>
+        <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
+          После демонстрации такую реализацию проще передать дальше в разработку: уже есть структура верстки, стили, базовые скрипты, состояния экранов и понятная логика компонентов.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-2">
+          {['fake data', 'real UI states', 'hosting demo', 'admin simulation', 'HTML/CSS/JS'].map((item) => <Badge tone="dark">{item}</Badge>)}
+        </div>
+      </div>
+
+      <div class="reveal glass-panel rounded-lg p-4">
+        <div class="rounded-lg border border-white/10 bg-black/30 p-4">
+          <div class="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+            <div class="flex gap-1.5">
+              <span class="size-2.5 rounded-full bg-rose-300"></span>
+              <span class="size-2.5 rounded-full bg-amber-300"></span>
+              <span class="size-2.5 rounded-full bg-lime-300"></span>
+            </div>
+            <span class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-black text-graphite">
+              <ExternalLink size={13} /> live mockup
+            </span>
+          </div>
+          <div class="grid gap-4 md:grid-cols-[0.72fr_1.28fr]">
+            <aside class="grid content-start gap-3 rounded-lg bg-white/8 p-3">
+              {['Dashboard', 'Orders', 'Users', 'Reports'].map((item) => <span class="rounded bg-white/10 px-3 py-2 text-sm font-bold text-slate-200">{item}</span>)}
+            </aside>
+            <section class="grid gap-3">
+              <div class="grid grid-cols-3 gap-3">
+                <span class="h-20 rounded-lg bg-blue/25"></span>
+                <span class="h-20 rounded-lg bg-cyan/20"></span>
+                <span class="h-20 rounded-lg bg-lime-300/20"></span>
+              </div>
+              <div class="grid gap-2 rounded-lg bg-white/8 p-4">
+                <span class="h-3 w-1/2 rounded bg-white/30"></span>
+                <span class="h-3 rounded bg-white/15"></span>
+                <span class="h-3 w-5/6 rounded bg-white/15"></span>
+              </div>
+              <div class="grid grid-cols-5 items-end gap-2 rounded-lg bg-white/8 p-4">
+                <span class="h-16 rounded bg-blue/50"></span>
+                <span class="h-28 rounded bg-cyan/50"></span>
+                <span class="h-12 rounded bg-lime-300/50"></span>
+                <span class="h-24 rounded bg-blue/50"></span>
+                <span class="h-20 rounded bg-cyan/50"></span>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    import '@/scripts/hero-scene';
+  </script>
+</BaseLayout>

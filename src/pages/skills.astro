@@ -1,0 +1,346 @@
+---
+import {
+  Bot,
+  Braces,
+  Boxes,
+  Code2,
+  Layers3,
+  MonitorSmartphone,
+  Paintbrush,
+  PenTool,
+  Workflow,
+} from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Badge from '@/components/ui/Badge.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { tools } from '@/data/skills';
+
+const skillGroups = [
+  {
+    icon: PenTool,
+    title: 'UI/UX и продуктовая логика',
+    text: 'Сценарии, user flow, структура экранов, информационная архитектура, формы, роли, состояния и ограничения разработки.',
+    tags: ['UX', 'UI', 'User Flow', 'Product Thinking'],
+  },
+  {
+    icon: Layers3,
+    title: 'Дизайн-системы',
+    text: 'Компоненты, UI-kit, токены, правила использования, адаптивные сетки и подготовка макетов для команды разработки.',
+    tags: ['Design Systems', 'Components', 'Figma', 'Tokens'],
+  },
+  {
+    icon: Code2,
+    title: 'Frontend и прототипы',
+    text: 'HTML, CSS, JavaScript, TypeScript, React, Vue, анимации, responsive layout и кликабельные HTML-мокапы.',
+    tags: ['HTML', 'CSS', 'JS', 'React', 'Vue'],
+  },
+  {
+    icon: MonitorSmartphone,
+    title: 'Сложные интерфейсы',
+    text: 'CRM, ERP, кабинеты, дашборды, таблицы, графики, фильтры, карточки сущностей и рабочие состояния продукта.',
+    tags: ['Dashboard', 'CRM', 'ERP', 'Tables'],
+  },
+  {
+    icon: Paintbrush,
+    title: 'Visual и digital design',
+    text: 'Лендинги, корпоративные сайты, презентации, баннеры, бренд-материалы, промо-графика и печатные материалы.',
+    tags: ['Landing', 'Decks', 'Banners', 'Brand'],
+  },
+  {
+    icon: Bot,
+    title: 'AI как ускоритель',
+    text: 'Исследования, генерация идей, тексты, промптинг, визуалы, код, fake data, быстрые проверки и production-рутина.',
+    tags: ['ChatGPT', 'Claude', 'Codex', 'Antigravity'],
+  },
+];
+
+const toolGroups = [
+  { title: 'Дизайн', icon: Paintbrush, items: ['Figma', 'FigJam', 'Adobe Photoshop', 'Illustrator'] },
+  { title: 'Frontend', icon: Braces, items: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Vue.js', 'Laravel'] },
+  { title: 'AI', icon: Bot, items: ['ChatGPT', 'Claude', 'Codex', 'Antigravity', 'Image generation', 'Video generation'] },
+  { title: 'Процесс', icon: Workflow, items: ['User Flow', 'Design Systems', 'Git'] },
+];
+
+const skillCloud = [
+  ['UI/UX', 48, 18, 1.18, 0],
+  ['Figma', 67, 24, 1.02, 0.4],
+  ['HTML', 34, 31, 1.05, 1.1],
+  ['CSS', 55, 37, 0.94, 0.7],
+  ['JavaScript', 75, 43, 1.18, 1.8],
+  ['TypeScript', 24, 48, 1.08, 2.2],
+  ['React', 44, 55, 0.96, 1.5],
+  ['Vue', 64, 59, 0.92, 2.8],
+  ['Git', 82, 62, 0.86, 3.1],
+  ['GSAP', 31, 70, 0.94, 3.7],
+  ['Three.js', 53, 76, 1.05, 2.5],
+  ['Design Systems', 71, 78, 1.12, 4.2],
+  ['User Flow', 18, 64, 0.98, 4.8],
+  ['AI', 38, 83, 0.86, 5.1],
+  ['Codex', 85, 30, 0.88, 5.7],
+  ['Dashboards', 15, 38, 0.9, 6.2],
+] as const;
+---
+
+<BaseLayout title="Навыки и инструменты - Timur Khairullin">
+  <section class="section dark-band">
+    <div class="container grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+      <div class="reveal">
+        <p class="eyebrow text-cyan">Skills & tools</p>
+        <h1 class="mt-4 text-balance text-3xl font-black leading-tight text-white md:text-4xl">Навыки, которые соединяют дизайн, продукт и код</h1>
+        <p class="mt-6 text-lg leading-8 text-slate-300">
+          Мой основной фокус — интерфейсы, которые можно не только нарисовать, но и объяснить, собрать, протестировать на сценариях и передать в разработку без потери смысла.
+        </p>
+      </div>
+
+      <div class="reveal skill-orb-shell">
+        <div class="skill-orb-field" aria-label="Навыки и инструменты">
+          <span class="skill-orb-core">skills</span>
+          {skillCloud.map(([label, x, y, scale, delay]) => (
+            <span
+              class="skill-orb"
+              style={`--x: ${x}%; --y: ${y}%; --scale: ${scale}; --delay: ${delay}s`}
+            >
+              {label}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <SectionTitle eyebrow="Capabilities" title="Ключевые навыки" text="Набор компетенций закрывает путь от структуры интерфейса и визуального дизайна до кликабельного прототипа, frontend-реализации и AI-ускорения рабочих задач" />
+      <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {skillGroups.map((group) => {
+          const Icon = group.icon;
+          return (
+            <article class="reveal magnetic-card rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
+              <div class="grid size-12 place-items-center rounded-lg bg-ink text-white">
+                <Icon size={22} aria-hidden="true" />
+              </div>
+              <h2 class="mt-5 text-2xl font-black leading-tight text-ink">{group.title}</h2>
+              <p class="mt-3 leading-7 text-muted">{group.text}</p>
+              <div class="mt-5 flex flex-wrap gap-2">
+                {group.tags.map((tag) => <Badge>{tag}</Badge>)}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-slate-50">
+    <div class="container">
+      <SectionTitle eyebrow="Stack" title="Инструменты, которыми пользуюсь" text="Базовая связка помогает быстро переходить от идеи к макету, интерактивной демонстрации, frontend-структуре и материалам для презентации результата" />
+      <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {toolGroups.map((group) => {
+          const Icon = group.icon;
+          return (
+            <article class="reveal rounded-lg border border-slate-200 bg-white p-5 shadow-soft">
+              <div class="mb-5 flex items-center gap-3">
+                <span class="grid size-10 place-items-center rounded-lg bg-blue/10 text-blue">
+                  <Icon size={20} aria-hidden="true" />
+                </span>
+                <h2 class="text-xl font-black text-ink">{group.title}</h2>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                {group.items.map((item) => <Badge>{item}</Badge>)}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      <div class="mt-10 rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
+        <div class="flex flex-wrap gap-2">
+          {tools.map((tool) => <Badge>{tool}</Badge>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container grid gap-5 md:grid-cols-3">
+      {[
+        ['Проектирую', 'Сценарии, структура, UI, компоненты и дизайн-система.'],
+        ['Собираю', 'HTML-мокапы, интерактив, анимации, адаптив и демонстрации.'],
+        ['Ускоряю', 'AI, fake data, тексты, код, визуалы и быстрые проверки гипотез.'],
+      ].map(([title, text]) => (
+        <article class="reveal rounded-lg border border-slate-200 p-6">
+          <Boxes size={24} class="text-blue" />
+          <h2 class="mt-4 text-2xl font-black text-ink">{title}</h2>
+          <p class="mt-3 leading-7 text-muted">{text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <style>
+    .skill-orb-shell {
+      position: relative;
+      min-height: 420px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 50% 46%, rgba(32, 212, 246, 0.16), transparent 34%),
+        radial-gradient(circle at 74% 30%, rgba(163, 230, 53, 0.12), transparent 28%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+      box-shadow: 0 24px 90px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(22px);
+    }
+
+    .skill-orb-field {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 34px 34px;
+    }
+
+    .skill-orb-field::before,
+    .skill-orb-field::after {
+      position: absolute;
+      inset: 50%;
+      width: 360px;
+      height: 360px;
+      border: 1px solid rgba(32, 212, 246, 0.16);
+      border-radius: 999px;
+      transform: translate(-50%, -50%);
+      content: '';
+    }
+
+    .skill-orb-field::after {
+      width: 250px;
+      height: 250px;
+      border-color: rgba(163, 230, 53, 0.12);
+    }
+
+    .skill-orb-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: grid;
+      width: 88px;
+      height: 88px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(7, 10, 18, 0.52);
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 44px rgba(32, 212, 246, 0.18);
+    }
+
+    .skill-orb {
+      position: absolute;
+      top: var(--y);
+      left: var(--x);
+      display: inline-flex;
+      min-height: 38px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      background: rgba(7, 10, 18, 0.58);
+      padding: 0.55rem 0.9rem;
+      color: #fff;
+      font-size: 0.84rem;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+      box-shadow:
+        0 0 0 1px rgba(32, 212, 246, 0.05),
+        0 16px 42px rgba(0, 0, 0, 0.22),
+        0 0 36px rgba(32, 212, 246, 0.12);
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.28);
+      animation: skill-orb-pop 8.8s cubic-bezier(0.18, 0.84, 0.24, 1) infinite;
+      animation-delay: var(--delay);
+    }
+
+    .skill-orb:nth-child(3n) {
+      border-color: rgba(163, 230, 53, 0.26);
+      box-shadow:
+        0 16px 42px rgba(0, 0, 0, 0.22),
+        0 0 34px rgba(163, 230, 53, 0.12);
+    }
+
+    .skill-orb:nth-child(4n) {
+      border-color: rgba(79, 140, 255, 0.28);
+      box-shadow:
+        0 16px 42px rgba(0, 0, 0, 0.22),
+        0 0 34px rgba(79, 140, 255, 0.16);
+    }
+
+    @keyframes skill-orb-pop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.16);
+        filter: blur(7px);
+      }
+
+      7% {
+        opacity: 0.22;
+        transform: translate(-50%, -50%) scale(0.32);
+        filter: blur(5px);
+      }
+
+      14% {
+        opacity: 0.68;
+        transform: translate(-50%, -50%) scale(0.74);
+        filter: blur(2px);
+      }
+
+      20% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(calc(var(--scale) * 1.18));
+        filter: blur(0);
+      }
+
+      27%,
+      54% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(var(--scale));
+        filter: blur(0);
+      }
+
+      64% {
+        opacity: 0.88;
+        transform: translate(-50%, -50%) scale(calc(var(--scale) * 0.92));
+        filter: blur(0.5px);
+      }
+
+      73% {
+        opacity: 0.46;
+        transform: translate(-50%, -50%) scale(0.62);
+        filter: blur(2px);
+      }
+
+      84%,
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.18);
+        filter: blur(7px);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .skill-orb-shell {
+        min-height: 360px;
+      }
+
+      .skill-orb {
+        min-height: 34px;
+        padding: 0.48rem 0.72rem;
+        font-size: 0.74rem;
+      }
+    }
+  </style>
+</BaseLayout>

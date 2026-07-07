@@ -1,0 +1,58 @@
+---
+import { MessageCircle, Phone, Send } from '@lucide/astro';
+import { navigation } from '@/data/navigation';
+import { contact } from '@/data/contact';
+import { withBase } from '@/utils/path';
+const year = new Date().getFullYear();
+const phoneDigits = contact.phone.replace(/\D/g, '');
+const phoneHref = `tel:+${phoneDigits}`;
+const whatsapp = `https://wa.me/${phoneDigits}`;
+---
+
+<footer class="dark-band border-t border-white/10">
+  <div class="container grid gap-10 py-14 md:grid-cols-[1.3fr_0.7fr_0.7fr]">
+    <div>
+      <p class="text-sm font-bold uppercase tracking-[0.08em] text-cyan">UI/UX Designer & Product Developer</p>
+      <h2 class="mt-4 max-w-xl text-3xl font-black leading-tight text-white">
+        Проектирую интерфейсы, которые можно не только показать, но и внедрить.
+      </h2>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a class="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-bold text-ink" href={phoneHref}>
+          <Phone size={16} aria-hidden="true" />
+          Позвонить
+        </a>
+        <a class="inline-flex items-center gap-2 rounded-lg border border-white/15 px-4 py-3 text-sm font-bold text-white" href={whatsapp} target="_blank" rel="noreferrer">
+          <MessageCircle size={16} aria-hidden="true" />
+          WhatsApp
+        </a>
+        <a class="inline-flex items-center gap-2 rounded-lg border border-white/15 px-4 py-3 text-sm font-bold text-white" href={contact.telegram} target="_blank" rel="noreferrer">
+          <Send size={16} aria-hidden="true" />
+          Telegram
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <p class="mb-4 text-sm font-bold text-white">Navigation</p>
+      <nav class="grid gap-3 text-sm text-slate-300">
+        {navigation.map((item) => <a class="hover:text-white" href={withBase(item.href)}>{item.label}</a>)}
+      </nav>
+    </div>
+
+    <div>
+      <p class="mb-4 text-sm font-bold text-white">Contacts</p>
+      <div class="grid gap-3 text-sm text-slate-300">
+        <a class="hover:text-white" href={phoneHref}>Телефон: {contact.phone}</a>
+        <a class="hover:text-white" href={whatsapp} target="_blank" rel="noreferrer">WhatsApp: {contact.phone}</a>
+        <a class="hover:text-white" href={contact.telegram} target="_blank" rel="noreferrer">Telegram: ArmorDRX</a>
+        <span>{contact.city}</span>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/10 py-5">
+    <div class="container flex flex-wrap items-center justify-between gap-3 text-sm text-slate-400">
+      <span>© {year} Timur Khairullin</span>
+      <span>Design, frontend and AI workflow</span>
+    </div>
+  </div>
+</footer>

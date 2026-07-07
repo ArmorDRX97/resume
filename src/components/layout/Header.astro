@@ -1,0 +1,55 @@
+---
+import { Menu, Send } from '@lucide/astro';
+import { navigation } from '@/data/navigation';
+import { withBase } from '@/utils/path';
+
+const currentPath = Astro.url.pathname;
+const normalizePath = (path: string) => {
+  const normalized = path.endsWith('/') ? path : `${path}/`;
+  return normalized;
+};
+const isActive = (href: string) => {
+  const target = normalizePath(withBase(href));
+  const current = normalizePath(currentPath);
+  return current === target || (target !== withBase('/') && current.startsWith(target));
+};
+---
+
+<header class="site-header sticky top-0 z-50 border-b backdrop-blur-xl" data-site-header>
+  <div class="container flex h-16 items-center justify-between gap-6">
+    <a href={withBase('/')} class="site-brand group flex items-center gap-3 font-black" aria-label="Timur Khairullin home">
+      <span class="site-logo grid size-9 place-items-center rounded-lg text-sm transition group-hover:scale-105">TK</span>
+      <span class="site-brand-text hidden sm:inline">Timur Khairullin</span>
+    </a>
+
+    <nav class="site-nav hidden items-center gap-7 text-sm font-semibold md:flex" aria-label="Main navigation">
+      {navigation.map((item) => <a class="transition" href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
+    </nav>
+
+    <a
+      class="site-action hidden min-h-10 items-center gap-2 rounded-lg border px-4 py-2 text-sm font-bold transition hover:-translate-y-0.5 md:inline-flex"
+      href={withBase('/contact/')}
+    >
+      <Send size={16} aria-hidden="true" />
+      Написать
+    </a>
+
+    <details class="relative md:hidden">
+      <summary class="site-menu-trigger grid size-10 cursor-pointer list-none place-items-center rounded-lg border" aria-label="Open navigation">
+        <Menu size={20} aria-hidden="true" />
+      </summary>
+      <div class="site-mobile-menu absolute right-0 mt-3 w-56 rounded-lg border p-2 shadow-soft">
+        {navigation.map((item) => <a class="block rounded-md px-3 py-3 text-sm font-semibold" href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
+      </div>
+    </details>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('[data-site-header]');
+  const updateHeader = () => {
+    header?.classList.toggle('is-scrolled', window.scrollY > 24);
+  };
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
+</script>

@@ -1,0 +1,11 @@
+---
+import MockupFrame from './MockupFrame.astro';
+const { title = 'Media preview', variant = 'dashboard' } = Astro.props;
+---
+
+<figure class="grid gap-3">
+  <MockupFrame title={title} variant={variant} />
+  <figcaption class="text-sm text-muted">
+    <slot />
+  </figcaption>
+</figure>

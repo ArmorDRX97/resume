@@ -1,0 +1,79 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Button from '@/components/ui/Button.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import MockupFrame from '@/components/media/MockupFrame.astro';
+import ImageGallery from '@/components/media/ImageGallery.astro';
+import EmbedFrame from '@/components/media/EmbedFrame.astro';
+
+export async function getStaticPaths() {
+  const cases = await getCollection('cases');
+  return cases.map((entry) => ({ params: { slug: entry.id.replace(/\.mdx$/, '') }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={`${entry.data.title} - Case Study`}>
+  <section class="section">
+    <div class="container grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+      <div>
+        <p class="eyebrow">{entry.data.category}</p>
+        <h1 class="mt-4 text-balance text-5xl font-black leading-tight text-ink md:text-6xl">{entry.data.title}</h1>
+        <p class="mt-5 text-lg leading-8 text-muted">{entry.data.summary}</p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <Badge>{entry.data.period}</Badge>
+          <Badge>{entry.data.role}</Badge>
+          {entry.data.nda && <Badge>NDA-safe preview</Badge>}
+        </div>
+      </div>
+      <MockupFrame variant={entry.data.visual} title={entry.data.company} />
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
+      <aside class="h-max rounded-lg border border-slate-200 bg-slate-50 p-5">
+        <p class="text-sm font-black uppercase tracking-[0.08em] text-blue">Project info</p>
+        <dl class="mt-5 grid gap-4 text-sm">
+          <div><dt class="font-bold text-ink">Company</dt><dd class="mt-1 text-muted">{entry.data.company}</dd></div>
+          <div><dt class="font-bold text-ink">Role</dt><dd class="mt-1 text-muted">{entry.data.role}</dd></div>
+          <div><dt class="font-bold text-ink">Period</dt><dd class="mt-1 text-muted">{entry.data.period}</dd></div>
+          <div><dt class="font-bold text-ink">Tools</dt><dd class="mt-2 flex flex-wrap gap-2">{entry.data.tools.map((tool) => <Badge>{tool}</Badge>)}</dd></div>
+        </dl>
+      </aside>
+      <article class="prose prose-slate max-w-none prose-headings:font-black prose-h2:text-3xl prose-p:leading-8">
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionTitle eyebrow="Screens & media" title="Визуальные материалы" text="Скриншоты, NDA-safe экраны, видео и интерактивные прототипы помогают оценить структуру интерфейса, ключевые состояния и качество визуальной подачи" />
+      <div class="mt-10">
+        <ImageGallery />
+      </div>
+      <div class="mt-8">
+        <EmbedFrame title={`${entry.data.title} interactive mockup`} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <div class="rounded-lg border border-slate-200 p-8 text-center shadow-soft">
+        <h2 class="text-3xl font-black text-ink">Что демонстрирует этот кейс</h2>
+        <p class="mx-auto mt-4 max-w-2xl leading-8 text-muted">
+          Умение связывать продуктовую задачу, пользовательский сценарий, визуальную систему и ограничения разработки.
+        </p>
+        <div class="mt-6">
+          <Button href="/cases/" variant="secondary">All cases</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

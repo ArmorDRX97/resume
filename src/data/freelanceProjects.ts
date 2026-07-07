@@ -1,0 +1,26 @@
+export const freelanceProjects = [
+  'Service company landing page',
+  'Marketplace product flow',
+  'CRM dashboard redesign',
+  'Corporate presentation system',
+  'Mobile app onboarding concept',
+  'Analytics module interface',
+  'Brand materials package',
+  'HTML marketing mockup',
+  'Booking flow UX improvement',
+  'Print and banner collection',
+  'Internal tool component set',
+  'AI-assisted visual concepts',
+].map((title, index) => ({
+  title,
+  category: ['Landing Page', 'UI/UX', 'Branding', 'Frontend Module'][index % 4],
+  year: String(2022 + (index % 5)),
+  role: 'Design & Product Development',
+  description:
+    'Коммерческий проект с интерфейсными, визуальными или frontend-задачами: от структуры и визуальной подачи до демонстрации результата',
+  cover: '',
+  tags: ['Figma', 'UI/UX', index % 2 ? 'HTML' : 'Prototype'],
+  nda: index % 3 === 0,
+  url: '',
+  embedUrl: '',
+}));

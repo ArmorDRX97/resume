@@ -1,0 +1,452 @@
+---
+import { ArrowUpRight, Images, Link2, Maximize2, Monitor, PanelRightOpen, Presentation, Sparkles } from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Badge from '@/components/ui/Badge.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import MockupFrame from '@/components/media/MockupFrame.astro';
+
+const tabs = [
+  { id: 'sites', label: 'Готовые сайты', icon: Monitor },
+  { id: 'prototypes', label: 'HTML-мокапы', icon: Sparkles },
+  { id: 'designs', label: 'Дизайн-кейсы', icon: Images },
+  { id: 'media', label: 'Презентации и графика', icon: Presentation },
+] as const;
+
+const caseItems = [
+  {
+    tab: 'sites',
+    title: 'Корпоративный сайт Helios',
+    description: 'Готовый сайт/лендинг с описанием компании, услуг, визуальной системой и адаптивной структурой.',
+    image: '',
+    url: '',
+    visual: 'website',
+    tags: ['site', 'responsive', 'brand'],
+    gallery: [
+      { title: 'Главный экран', visual: 'website' },
+      { title: 'Блок услуг', visual: 'landing' },
+      { title: 'Адаптив', visual: 'mobile' },
+    ],
+  },
+  {
+    tab: 'sites',
+    title: 'Landing pages collection',
+    description: 'Набор посадочных страниц под коммерческие предложения, услуги, заявки и презентацию продукта.',
+    image: '',
+    url: '',
+    visual: 'landing',
+    tags: ['landing', 'conversion', 'web'],
+    gallery: [
+      { title: 'Hero section', visual: 'landing' },
+      { title: 'Форма заявки', visual: 'website' },
+      { title: 'Мобильная версия', visual: 'mobile' },
+    ],
+  },
+  {
+    tab: 'prototypes',
+    title: 'Админка с фейковыми данными',
+    description: 'Кликабельный HTML/CSS/JS-мокап кабинета: таблицы, фильтры, статусы, карточки и имитация реальной работы.',
+    image: '',
+    url: '',
+    visual: 'dashboard',
+    tags: ['HTML', 'JS', 'fake data'],
+    gallery: [
+      { title: 'Dashboard', visual: 'dashboard' },
+      { title: 'Таблица заказов', visual: 'charts' },
+      { title: 'Карточка пользователя', visual: 'system' },
+    ],
+  },
+  {
+    tab: 'prototypes',
+    title: 'Кабинет продукта',
+    description: 'Интерактивный прототип внутренней системы с состояниями экранов и готовой демонстрацией по ссылке.',
+    image: '',
+    url: '',
+    visual: 'system',
+    tags: ['prototype', 'states', 'hosting'],
+    gallery: [
+      { title: 'Главная сводка', visual: 'system' },
+      { title: 'Графики', visual: 'charts' },
+      { title: 'Ролевой сценарий', visual: 'dashboard' },
+    ],
+  },
+  {
+    tab: 'designs',
+    title: 'Государственная экосистема',
+    description: 'UI/UX для сложной системы: роли, таблицы, формы, фильтры, статусы и дизайн-система для разработки.',
+    image: '',
+    url: '',
+    visual: 'system',
+    tags: ['UI/UX', 'design system', 'enterprise'],
+    gallery: [
+      { title: 'Главный экран кейса', visual: 'system' },
+      { title: 'Табличный сценарий', visual: 'dashboard' },
+      { title: 'Компоненты', visual: 'brand' },
+      { title: 'Аналитика', visual: 'charts' },
+    ],
+  },
+  {
+    tab: 'designs',
+    title: 'Mobile product flows',
+    description: 'Мобильные сценарии, user flow, экраны состояний и визуальная подача продукта.',
+    image: '',
+    url: '',
+    visual: 'mobile',
+    tags: ['mobile', 'flow', 'UX'],
+    gallery: [
+      { title: 'Onboarding', visual: 'mobile' },
+      { title: 'Основной сценарий', visual: 'mobile' },
+      { title: 'Пустые состояния', visual: 'website' },
+    ],
+  },
+  {
+    tab: 'media',
+    title: 'Презентации и коммерческие материалы',
+    description: 'Слайды, баннеры, листовки, digital-графика и визуальные материалы для продаж и запуска.',
+    image: '',
+    url: '',
+    visual: 'brand',
+    tags: ['deck', 'banner', 'print'],
+    gallery: [
+      { title: 'Титульный слайд', visual: 'brand' },
+      { title: 'Инфографика', visual: 'charts' },
+      { title: 'Баннер', visual: 'landing' },
+    ],
+  },
+  {
+    tab: 'media',
+    title: 'Digital print collection',
+    description: 'Печатные и digital-материалы: афиши, листовки, баннеры, обложки и промо-графика.',
+    image: '',
+    url: '',
+    visual: 'brand',
+    tags: ['visual', 'print', 'promo'],
+    gallery: [
+      { title: 'Промо-баннер', visual: 'landing' },
+      { title: 'Листовка', visual: 'brand' },
+      { title: 'Обложка', visual: 'website' },
+    ],
+  },
+] as const;
+---
+
+<BaseLayout title="Кейсы - Timur Khairullin">
+  <section class="section bg-slate-50">
+    <div class="container">
+      <div class="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+        <SectionTitle eyebrow="Cases" title="Кейсы по форматам работ" text="Выберите удобный формат просмотра: готовые сайты, интерактивные HTML-мокапы, дизайн-кейсы, презентации и digital-графику. Так проще быстро оценить тип задачи, визуальный уровень и глубину проработки" />
+        <div class="reveal rounded-lg border border-slate-200 bg-white p-5 shadow-soft">
+          <p class="text-sm font-bold text-blue">Структура</p>
+          <p class="mt-2 leading-7 text-muted">Готовые сайты можно открыть по ссылке, дизайн-кейсы раскрываются в боковой панели, а дополнительные экраны доступны в fullscreen-галерее</p>
+        </div>
+      </div>
+
+      <div class="mt-10 flex flex-wrap gap-2" data-case-tabs>
+        {tabs.map((tab, index) => {
+          const Icon = tab.icon;
+          return (
+            <button class={`case-tab inline-flex min-h-11 items-center gap-2 rounded-lg border px-4 py-2 text-sm font-black transition ${index === 0 ? 'is-active' : ''}`} type="button" data-tab={tab.id}>
+              <Icon size={16} aria-hidden="true" />
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-case-grid>
+        {caseItems.map((item) => (
+          <article class="case-item reveal magnetic-card grid h-full rounded-lg border border-slate-200 bg-white p-3 shadow-soft" data-case-item data-tab-panel={item.tab}>
+            <button
+              type="button"
+              class="group grid h-full text-left"
+              data-open-case
+              data-title={item.title}
+              data-description={item.description}
+              data-url={item.url}
+              data-gallery={JSON.stringify(item.gallery)}
+            >
+              <div class="relative">
+                <MockupFrame variant={item.visual} title={item.tab} />
+                <span class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full border border-white/70 bg-white/90 px-3 py-1 text-xs font-black text-ink shadow-soft">
+                  <Images size={13} /> {item.gallery.length}
+                </span>
+              </div>
+              <div class="grid gap-4 p-4">
+                <div class="flex flex-wrap gap-2">
+                  {item.tags.map((tag) => <Badge>{tag}</Badge>)}
+                </div>
+                <div>
+                  <h2 class="text-2xl font-black leading-tight text-ink">{item.title}</h2>
+                  <p class="mt-3 leading-7 text-muted">{item.description}</p>
+                </div>
+                <div class="flex items-center justify-between border-t border-slate-100 pt-4 text-sm font-bold text-blue">
+                  <span class="inline-flex items-center gap-2"><PanelRightOpen size={16} /> Смотреть</span>
+                  <ArrowUpRight size={17} />
+                </div>
+              </div>
+            </button>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <aside class="case-drawer" aria-hidden="true" data-case-drawer>
+    <div class="case-drawer__panel">
+      <div class="flex items-start justify-between gap-4 border-b border-slate-200 p-6">
+        <div>
+          <p class="text-sm font-bold text-blue">Case preview</p>
+          <h2 class="mt-2 text-3xl font-black leading-tight text-ink" data-drawer-title></h2>
+          <p class="mt-3 leading-7 text-muted" data-drawer-description></p>
+        </div>
+        <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm font-black text-ink" type="button" data-close-drawer>Закрыть</button>
+      </div>
+      <div class="grid gap-4 p-6">
+        <a class="hidden items-center gap-2 rounded-lg bg-ink px-4 py-3 text-sm font-black text-white" href="#" target="_blank" rel="noreferrer" data-drawer-link>
+          <Link2 size={16} /> Открыть ссылку
+        </a>
+        <div class="grid gap-3" data-drawer-gallery></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="case-lightbox" aria-hidden="true" data-case-lightbox>
+    <button class="case-lightbox__close" type="button" data-close-lightbox>Закрыть</button>
+    <button class="case-lightbox__nav" type="button" data-lightbox-prev>Назад</button>
+    <div class="case-lightbox__content">
+      <div class="lightbox-art" data-lightbox-art></div>
+      <div class="mt-5 flex items-center justify-center gap-2 text-white">
+        <Maximize2 size={18} />
+        <h2 class="text-center text-2xl font-black" data-lightbox-title></h2>
+      </div>
+    </div>
+    <button class="case-lightbox__nav" type="button" data-lightbox-next>Вперед</button>
+  </div>
+  <style>
+    .case-tab {
+      border-color: rgb(226 232 240);
+      background: rgba(255, 255, 255, 0.8);
+      color: rgb(51 65 85);
+    }
+
+    .case-tab.is-active {
+      border-color: rgba(79, 140, 255, 0.5);
+      background: #0f172a;
+      color: white;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .case-item[hidden] {
+      display: none;
+    }
+
+    .case-drawer,
+    .case-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 220ms ease;
+    }
+
+    .case-drawer {
+      background: rgba(7, 10, 18, 0.46);
+    }
+
+    .case-drawer.is-open,
+    .case-lightbox.is-open {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .case-drawer__panel {
+      margin-left: auto;
+      min-height: 100%;
+      width: min(720px, 100%);
+      background: #fff;
+      box-shadow: -28px 0 90px rgba(15, 23, 42, 0.28);
+      transform: translateX(100%);
+      transition: transform 280ms ease;
+    }
+
+    .case-drawer.is-open .case-drawer__panel {
+      transform: translateX(0);
+    }
+
+    .gallery-thumb {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr) auto;
+      gap: 1rem;
+      align-items: center;
+      border: 1px solid rgb(226 232 240);
+      border-radius: 8px;
+      background: #fff;
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    .gallery-art,
+    .lightbox-art {
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background:
+        linear-gradient(135deg, rgba(79, 140, 255, 0.36), transparent 34%),
+        linear-gradient(225deg, rgba(32, 212, 246, 0.24), transparent 40%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 24px),
+        #111827;
+    }
+
+    .gallery-art {
+      min-height: 72px;
+    }
+
+    .case-lightbox {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(2, 6, 23, 0.92);
+      padding: 2rem;
+    }
+
+    .case-lightbox__content {
+      min-width: 0;
+    }
+
+    .lightbox-art {
+      margin-inline: auto;
+      height: min(72vh, 760px);
+      max-width: 1120px;
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+    }
+
+    .case-lightbox__close,
+    .case-lightbox__nav {
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 900;
+    }
+
+    .case-lightbox__close {
+      position: absolute;
+      right: 2rem;
+      top: 2rem;
+    }
+
+    @media (max-width: 760px) {
+      .case-lightbox {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+
+      .case-lightbox__close {
+        right: 1rem;
+        top: 1rem;
+      }
+
+      .gallery-thumb {
+        grid-template-columns: 88px minmax(0, 1fr);
+      }
+    }
+  </style>
+
+  <script>
+    // @ts-nocheck
+    const tabs = document.querySelectorAll('[data-tab]');
+    const items = document.querySelectorAll('[data-case-item]');
+    const drawer = document.querySelector('[data-case-drawer]');
+    const drawerTitle = document.querySelector('[data-drawer-title]');
+    const drawerDescription = document.querySelector('[data-drawer-description]');
+    const drawerLink = document.querySelector('[data-drawer-link]');
+    const drawerGallery = document.querySelector('[data-drawer-gallery]');
+    const lightbox = document.querySelector('[data-case-lightbox]');
+    const lightboxTitle = document.querySelector('[data-lightbox-title]');
+    const lightboxArt = document.querySelector('[data-lightbox-art]');
+    let activeGallery = [];
+    let activeIndex = 0;
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const active = tab.getAttribute('data-tab');
+        tabs.forEach((button) => button.classList.toggle('is-active', button === tab));
+        items.forEach((item) => item.toggleAttribute('hidden', item.getAttribute('data-tab-panel') !== active));
+      });
+    });
+
+    const openLightbox = (index) => {
+      activeIndex = index;
+      const item = activeGallery[activeIndex];
+      lightboxTitle.textContent = item.title;
+      lightboxArt.setAttribute('data-visual', item.visual);
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+    };
+
+    document.querySelectorAll('[data-open-case]').forEach((button) => {
+      button.addEventListener('click', () => {
+        activeGallery = JSON.parse(button.getAttribute('data-gallery') || '[]');
+        drawerTitle.textContent = button.getAttribute('data-title') || '';
+        drawerDescription.textContent = button.getAttribute('data-description') || '';
+        const url = button.getAttribute('data-url');
+        drawerLink.classList.toggle('hidden', !url);
+        drawerLink.classList.toggle('inline-flex', Boolean(url));
+        if (url) drawerLink.setAttribute('href', url);
+        drawerGallery.innerHTML = activeGallery
+          .map((item, index) => `
+            <button class="gallery-thumb" type="button" data-open-shot="${index}">
+              <span class="gallery-art" data-visual="${item.visual}"></span>
+              <span>
+                <span class="block text-base font-black text-ink">${item.title}</span>
+                <span class="mt-1 block text-sm text-muted">Нажмите, чтобы открыть на весь экран</span>
+              </span>
+              <span class="hidden text-blue md:inline"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></span>
+            </button>
+          `)
+          .join('');
+        drawer.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+      });
+    });
+
+    drawerGallery.addEventListener('click', (event) => {
+      const target = event.target.closest('[data-open-shot]');
+      if (target) openLightbox(Number(target.getAttribute('data-open-shot')));
+    });
+
+    const closeDrawer = () => {
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+    };
+
+    document.querySelector('[data-close-drawer]').addEventListener('click', closeDrawer);
+
+    drawer.addEventListener('click', (event) => {
+      if (event.target === drawer) closeDrawer();
+    });
+
+    document.querySelector('[data-close-lightbox]').addEventListener('click', () => {
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+    });
+
+    document.querySelector('[data-lightbox-prev]').addEventListener('click', () => {
+      openLightbox((activeIndex - 1 + activeGallery.length) % activeGallery.length);
+    });
+
+    document.querySelector('[data-lightbox-next]').addEventListener('click', () => {
+      openLightbox((activeIndex + 1) % activeGallery.length);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        closeDrawer();
+      }
+    });
+  </script>
+</BaseLayout>
