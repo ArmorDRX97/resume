@@ -1,0 +1,14 @@
+title: Helios Soft
+type: site
+url: https://fvr.kz/
+tags: Site, Responsive, UI/UX, Frontend, Backend
+year: 2024
+role: UI/UX, frontend, backend
+
+
+description:
+Многостраничный сайт компании с разработанным собственным дизайном, структурой и небольшим backend для управлением контентом. 
+
+features:
+- Адаптивная главная страница
+- Визуальная подача продукта

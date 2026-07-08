@@ -1,0 +1,15 @@
+title: Aitia systems
+type: site
+url: https://aitiasystems.kz/
+tags: Site, Responsive, UI/UX
+year: 2026
+role: UI/UX
+priority: 1
+
+description:
+Создание концепта дизайна для многостраничного сайта. Сайт реализован не мной и многие моменты дизайна не реализованы.
+
+features:
+- Адаптивная главная страница
+- Визуальная подача продукта
+

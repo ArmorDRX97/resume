@@ -1,129 +1,163 @@
 ---
-import { ArrowUpRight, Images, Link2, Maximize2, Monitor, PanelRightOpen, Presentation, Sparkles } from '@lucide/astro';
+import { ArrowUpRight, ExternalLink, Images, Link2, Maximize2, Monitor, PenTool, ShieldCheck } from '@lucide/astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Badge from '@/components/ui/Badge.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
-import MockupFrame from '@/components/media/MockupFrame.astro';
+import { withBase } from '@/utils/path';
 
 const tabs = [
   { id: 'sites', label: 'Готовые сайты', icon: Monitor },
-  { id: 'prototypes', label: 'HTML-мокапы', icon: Sparkles },
-  { id: 'designs', label: 'Дизайн-кейсы', icon: Images },
-  { id: 'media', label: 'Презентации и графика', icon: Presentation },
+  { id: 'designs', label: 'Figma-дизайны', icon: PenTool },
 ] as const;
 
 const caseItems = [
   {
     tab: 'sites',
-    title: 'Корпоративный сайт Helios',
-    description: 'Готовый сайт/лендинг с описанием компании, услуг, визуальной системой и адаптивной структурой.',
-    image: '',
-    url: '',
-    visual: 'website',
-    tags: ['site', 'responsive', 'brand'],
-    gallery: [
-      { title: 'Главный экран', visual: 'website' },
-      { title: 'Блок услуг', visual: 'landing' },
-      { title: 'Адаптив', visual: 'mobile' },
-    ],
+    title: 'Izbasar',
+    description:
+      'Сайт программы развития молодых специалистов Казатомпрома. Проект собран как готовая верстка с адаптивной структурой и мини-backend на Laravel для наглядной демонстрации работы сайта.',
+    cover: '/images/portfolio/sites/izbasar/cover.jpg',
+    url: 'https://izbasar.kazatomprom.kz/',
+    tags: ['site', 'responsive', 'Laravel', 'career program'],
+    role: 'UI/UX, frontend, backend',
   },
   {
     tab: 'sites',
-    title: 'Landing pages collection',
-    description: 'Набор посадочных страниц под коммерческие предложения, услуги, заявки и презентацию продукта.',
-    image: '',
-    url: '',
-    visual: 'landing',
-    tags: ['landing', 'conversion', 'web'],
-    gallery: [
-      { title: 'Hero section', visual: 'landing' },
-      { title: 'Форма заявки', visual: 'website' },
-      { title: 'Мобильная версия', visual: 'mobile' },
-    ],
+    title: 'Murager',
+    description:
+      'Сайт программы образовательных грантов Казатомпрома. В проекте важны ясная подача условий, доверительный визуальный тон и готовая реализация для демонстрации заявки и ключевых разделов.',
+    cover: '/images/portfolio/sites/murager/cover.jpg',
+    url: 'https://murager.kazatomprom.kz/',
+    tags: ['site', 'responsive', 'Laravel', 'education'],
+    role: 'UI/UX, frontend, backend',
   },
   {
-    tab: 'prototypes',
-    title: 'Админка с фейковыми данными',
-    description: 'Кликабельный HTML/CSS/JS-мокап кабинета: таблицы, фильтры, статусы, карточки и имитация реальной работы.',
-    image: '',
-    url: '',
-    visual: 'dashboard',
-    tags: ['HTML', 'JS', 'fake data'],
-    gallery: [
-      { title: 'Dashboard', visual: 'dashboard' },
-      { title: 'Таблица заказов', visual: 'charts' },
-      { title: 'Карточка пользователя', visual: 'system' },
-    ],
+    tab: 'sites',
+    title: 'QazQar',
+    description:
+      'Сервис проката автомобилей без водителя. Работа включала визуальную концепцию, frontend и backend-логику, чтобы сайт можно было использовать как полноценную основу для сервиса.',
+    cover: '/images/portfolio/sites/qazqar/cover.jpg',
+    url: 'https://qazqar.kz/',
+    tags: ['rental service', 'UI/UX', 'frontend', 'backend'],
+    role: 'UI/UX, frontend, backend',
   },
   {
-    tab: 'prototypes',
-    title: 'Кабинет продукта',
-    description: 'Интерактивный прототип внутренней системы с состояниями экранов и готовой демонстрацией по ссылке.',
-    image: '',
-    url: '',
-    visual: 'system',
-    tags: ['prototype', 'states', 'hosting'],
+    tab: 'sites',
+    title: 'Helios Soft',
+    description:
+      'Многостраничный корпоративный сайт компании: структура, визуальная система, frontend и небольшой backend для управления контентом. Акцент сделан на понятной подаче услуг и доверии к бренду.',
+    cover: '/images/portfolio/sites/helios-soft/cover.jpg',
+    url: 'https://fvr.kz/',
+    tags: ['corporate site', 'CMS', 'frontend', 'backend'],
+    role: 'UI/UX, frontend, backend',
+  },
+  {
+    tab: 'sites',
+    title: 'BInTech',
+    description:
+      'Одностраничный сайт компании с прямой структурой, адаптивной версткой и фокусом на быструю презентацию направления, компетенций и контакта.',
+    cover: '/images/portfolio/sites/bintech/cover.jpg',
+    url: 'https://bintech.kz/',
+    tags: ['one-page', 'corporate', 'responsive'],
+    role: 'UI/UX, frontend',
+  },
+  {
+    tab: 'sites',
+    title: 'Aitia Systems',
+    description:
+      'Концепт дизайна для многостраничного сайта IT-компании. Публичная реализация отличается от исходной дизайн-концепции, но кейс показывает направление визуальной подачи и структуру продукта.',
+    cover: '/images/portfolio/sites/aitia-systems/cover.jpg',
+    url: 'https://aitiasystems.kz/',
+    tags: ['concept', 'multipage', 'UI/UX'],
+    role: 'UI/UX',
+  },
+  {
+    tab: 'sites',
+    title: 'ҚазМұнайГаз',
+    description:
+      'Работа с публичными страницами под существующую корпоративную систему: частичная реализация дизайна, верстка и адаптация интерфейсных блоков под действующий backend.',
+    cover: '/images/portfolio/sites/kmg/cover.jpg',
+    url: 'https://www.kmg.kz/',
+    tags: ['corporate', 'frontend', 'existing backend'],
+    role: 'UI/UX, frontend',
+  },
+  {
+    tab: 'sites',
+    title: 'Total Service',
+    description:
+      'Frontend-реализация сайта по сложному визуальному макету. Основной фокус был на аккуратной верстке, сохранении дизайн-деталей и адаптации интерфейса под разные экраны.',
+    cover: '/images/portfolio/sites/total-service/cover.jpg',
+    url: 'https://totalservice.kz/',
+    tags: ['frontend', 'complex layout', 'responsive'],
+    role: 'frontend',
+  },
+  {
+    tab: 'designs',
+    title: 'Balasan',
+    description:
+      'Дизайн продукта для учета детей через сканирование лиц: мобильное приложение, dashboard и UX-логика сценариев. В работе были продуманы путь пользователя, состояния интерфейса и процесс взаимодействия с системой.',
+    cover: '/images/portfolio/figma/balasan/cover.jpg',
+    url: 'https://embed.figma.com/design/cSPMBtyYVBjGI63XAlQ6eY/balasan-UI-UX?node-id=1510-57&embed-host=share',
+    embed: 'https://embed.figma.com/design/cSPMBtyYVBjGI63XAlQ6eY/balasan-UI-UX?node-id=1510-57&embed-host=share',
+    tags: ['mobile app', 'dashboard', 'face recognition', 'UX'],
+    role: 'UI/UX, product logic',
     gallery: [
-      { title: 'Главная сводка', visual: 'system' },
-      { title: 'Графики', visual: 'charts' },
-      { title: 'Ролевой сценарий', visual: 'dashboard' },
+      { title: 'Мобильный сценарий', image: '/images/portfolio/figma/balasan/gallery/01-mobile-flow.png' },
+      { title: 'Карточка и данные ребенка', image: '/images/portfolio/figma/balasan/gallery/02-child-profile.png' },
+      { title: 'Сканирование лица', image: '/images/portfolio/figma/balasan/gallery/03-face-scan.png' },
+      { title: 'Мобильный dashboard', image: '/images/portfolio/figma/balasan/gallery/04-dashboard-mobile.png' },
+      { title: 'Состояния и дополнительные экраны', image: '/images/portfolio/figma/balasan/gallery/05-states.png' },
     ],
   },
   {
     tab: 'designs',
-    title: 'Государственная экосистема',
-    description: 'UI/UX для сложной системы: роли, таблицы, формы, фильтры, статусы и дизайн-система для разработки.',
-    image: '',
-    url: '',
-    visual: 'system',
-    tags: ['UI/UX', 'design system', 'enterprise'],
+    title: 'HiTarget',
+    description:
+      'Дизайн сайта продукта, созданный совместно с другим дизайнером. Публичный сайт сейчас уже изменился, поэтому этот кейс показывает исходную визуальную концепцию, структуру экранов и подачу продукта.',
+    cover: '/images/portfolio/figma/hitarget/cover.jpg',
+    url: 'https://embed.figma.com/design/jHsDs7Rt0b0wp4Mb5Hg2hb/Hitarget?node-id=147-1&embed-host=share',
+    embed: 'https://embed.figma.com/design/jHsDs7Rt0b0wp4Mb5Hg2hb/Hitarget?node-id=147-1&embed-host=share',
+    tags: ['product site', 'web UI', 'Figma', 'collaboration'],
+    role: 'UI/UX',
     gallery: [
-      { title: 'Главный экран кейса', visual: 'system' },
-      { title: 'Табличный сценарий', visual: 'dashboard' },
-      { title: 'Компоненты', visual: 'brand' },
-      { title: 'Аналитика', visual: 'charts' },
+      { title: 'Главная страница', image: '/images/portfolio/figma/hitarget/gallery/01-home.jpg' },
+      { title: 'Dashboard', image: '/images/portfolio/figma/hitarget/gallery/02-dashboard.jpg' },
+      { title: 'Состояние dashboard', image: '/images/portfolio/figma/hitarget/gallery/03-dashboard-state.jpg' },
+      { title: 'Contact us', image: '/images/portfolio/figma/hitarget/gallery/04-contact-us.jpg' },
     ],
   },
   {
     tab: 'designs',
-    title: 'Mobile product flows',
-    description: 'Мобильные сценарии, user flow, экраны состояний и визуальная подача продукта.',
-    image: '',
-    url: '',
-    visual: 'mobile',
-    tags: ['mobile', 'flow', 'UX'],
+    title: 'Puls',
+    description:
+      'Концепт мобильного приложения медицинских услуг. Проработаны ключевые пользовательские сценарии: выбор услуги, запись, личные данные и структура экранов для дальнейшей разработки.',
+    cover: '/images/portfolio/figma/puls/cover.jpg',
+    url: 'https://embed.figma.com/design/5JLu7Y1RUZZoFhGq1Cq5vg/mobile-App-PULS-UI%5CUX?node-id=882-129&embed-host=share',
+    embed: 'https://embed.figma.com/design/5JLu7Y1RUZZoFhGq1Cq5vg/mobile-App-PULS-UI%5CUX?node-id=882-129&embed-host=share',
+    tags: ['mobile app', 'healthcare', 'UX flows', 'Figma'],
+    role: 'UI/UX',
     gallery: [
-      { title: 'Onboarding', visual: 'mobile' },
-      { title: 'Основной сценарий', visual: 'mobile' },
-      { title: 'Пустые состояния', visual: 'website' },
+      { title: 'Главный экран', image: '/images/portfolio/figma/puls/gallery/01-home.jpg' },
+      { title: 'Сценарий услуги', image: '/images/portfolio/figma/puls/gallery/02-service-flow.jpg' },
+      { title: 'Запись и детали', image: '/images/portfolio/figma/puls/gallery/03-booking-flow.jpg' },
+      { title: 'Профиль пользователя', image: '/images/portfolio/figma/puls/gallery/04-profile.jpg' },
     ],
   },
   {
-    tab: 'media',
-    title: 'Презентации и коммерческие материалы',
-    description: 'Слайды, баннеры, листовки, digital-графика и визуальные материалы для продаж и запуска.',
-    image: '',
-    url: '',
-    visual: 'brand',
-    tags: ['deck', 'banner', 'print'],
+    tab: 'designs',
+    title: 'QazQar Mobile App',
+    description:
+      'Мобильное приложение для проката автомобилей без водителя. Дизайн развивает визуальную систему сайта и закрывает основные сценарии: авторизация, подбор авто, фильтры и дальнейший путь к бронированию.',
+    cover: '/images/portfolio/figma/qazqar-app/cover.jpg',
+    url: 'https://embed.figma.com/design/NEKl84s43dYf3RJXJXZUz9/Qazqar-mobile-App-UI-UX?node-id=661-3622&embed-host=share',
+    embed: 'https://embed.figma.com/design/NEKl84s43dYf3RJXJXZUz9/Qazqar-mobile-App-UI-UX?node-id=661-3622&embed-host=share',
+    tags: ['mobile app', 'car rental', 'filters', 'UX'],
+    role: 'UI/UX',
     gallery: [
-      { title: 'Титульный слайд', visual: 'brand' },
-      { title: 'Инфографика', visual: 'charts' },
-      { title: 'Баннер', visual: 'landing' },
-    ],
-  },
-  {
-    tab: 'media',
-    title: 'Digital print collection',
-    description: 'Печатные и digital-материалы: афиши, листовки, баннеры, обложки и промо-графика.',
-    image: '',
-    url: '',
-    visual: 'brand',
-    tags: ['visual', 'print', 'promo'],
-    gallery: [
-      { title: 'Промо-баннер', visual: 'landing' },
-      { title: 'Листовка', visual: 'brand' },
-      { title: 'Обложка', visual: 'website' },
+      { title: 'Авторизация', image: '/images/portfolio/figma/qazqar-app/gallery/01-auth.jpg' },
+      { title: 'Главная', image: '/images/portfolio/figma/qazqar-app/gallery/02-home.jpg' },
+      { title: 'Список автомобилей', image: '/images/portfolio/figma/qazqar-app/gallery/03-car-list.jpg' },
+      { title: 'Фильтры', image: '/images/portfolio/figma/qazqar-app/gallery/04-filters.jpg' },
     ],
   },
 ] as const;
@@ -132,11 +166,25 @@ const caseItems = [
 <BaseLayout title="Кейсы - Timur Khairullin">
   <section class="section bg-slate-50">
     <div class="container">
-      <div class="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
-        <SectionTitle eyebrow="Cases" title="Кейсы по форматам работ" text="Выберите удобный формат просмотра: готовые сайты, интерактивные HTML-мокапы, дизайн-кейсы, презентации и digital-графику. Так проще быстро оценить тип задачи, визуальный уровень и глубину проработки" />
-        <div class="reveal rounded-lg border border-slate-200 bg-white p-5 shadow-soft">
-          <p class="text-sm font-bold text-blue">Структура</p>
-          <p class="mt-2 leading-7 text-muted">Готовые сайты можно открыть по ссылке, дизайн-кейсы раскрываются в боковой панели, а дополнительные экраны доступны в fullscreen-галерее</p>
+      <div class="max-w-5xl">
+        <SectionTitle
+          eyebrow="Cases"
+          title="Кейсы по форматам работ"
+          text="Здесь собраны публичные проекты, которые можно показать без ограничений: готовые сайты с внешними ссылками и Figma-дизайны с галереей экранов. Так проще оценить тип задачи, визуальный уровень, сценарии и глубину проработки"
+        />
+      </div>
+
+      <div class="reveal mt-8 overflow-hidden rounded-lg border border-blue/20 bg-white shadow-soft">
+        <div class="grid gap-5 p-5 md:grid-cols-[auto_minmax(0,1fr)] md:items-start">
+          <span class="grid size-12 place-items-center rounded-lg bg-slate-950 text-white">
+            <ShieldCheck size={22} aria-hidden="true" />
+          </span>
+          <div>
+            <p class="text-sm font-black uppercase tracking-normal text-blue">NDA и конфиденциальность</p>
+            <p class="mt-2 max-w-5xl leading-7 text-muted">
+              Часть проектов из компаний, разовых заказов и внутренних продуктовых задач защищена NDA. Такие работы нельзя показывать публично в полном объеме, поэтому в портфолио собраны доступные материалы, обобщенные фрагменты интерфейсов и кейсы, которые можно демонстрировать без нарушения договоренностей.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -153,39 +201,79 @@ const caseItems = [
       </div>
 
       <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-case-grid>
-        {caseItems.map((item) => (
-          <article class="case-item reveal magnetic-card grid h-full rounded-lg border border-slate-200 bg-white p-3 shadow-soft" data-case-item data-tab-panel={item.tab}>
-            <button
-              type="button"
-              class="group grid h-full text-left"
-              data-open-case
-              data-title={item.title}
-              data-description={item.description}
-              data-url={item.url}
-              data-gallery={JSON.stringify(item.gallery)}
-            >
-              <div class="relative">
-                <MockupFrame variant={item.visual} title={item.tab} />
-                <span class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full border border-white/70 bg-white/90 px-3 py-1 text-xs font-black text-ink shadow-soft">
-                  <Images size={13} /> {item.gallery.length}
-                </span>
-              </div>
-              <div class="grid gap-4 p-4">
-                <div class="flex flex-wrap gap-2">
-                  {item.tags.map((tag) => <Badge>{tag}</Badge>)}
+        {caseItems.map((item) => {
+          const hasGallery = 'gallery' in item && item.gallery.length > 0;
+          return (
+            <article class="case-item reveal magnetic-card grid h-full overflow-hidden rounded-lg border border-slate-200 bg-white p-3 shadow-soft" data-case-item data-tab-panel={item.tab}>
+              {hasGallery ? (
+                <div class="grid h-full">
+                  <button
+                    type="button"
+                    class="case-cover group text-left"
+                    data-open-case
+                    data-title={item.title}
+                    data-description={item.description}
+                    data-url={item.url}
+                    data-embed={item.embed}
+                    data-role={item.role}
+                    data-gallery={JSON.stringify(item.gallery.map((shot) => ({ ...shot, image: withBase(shot.image) })))}
+                    aria-label={`Смотреть дизайн ${item.title}`}
+                  >
+                    <img src={withBase(item.cover)} alt={item.title} loading="lazy" />
+                    <span class="case-cover-badge">
+                      <Images size={13} /> {item.gallery.length}
+                    </span>
+                  </button>
+                  <div class="case-card-body">
+                    <div class="flex flex-wrap gap-2">
+                      {item.tags.map((tag) => <Badge>{tag}</Badge>)}
+                    </div>
+                    <div>
+                      <h2 class="text-2xl font-black leading-tight text-ink">{item.title}</h2>
+                      <p class="mt-3 leading-7 text-muted">{item.description}</p>
+                    </div>
+                    <button
+                      type="button"
+                      class="case-card-action text-left"
+                      data-open-case
+                      data-title={item.title}
+                      data-description={item.description}
+                      data-url={item.url}
+                      data-embed={item.embed}
+                      data-role={item.role}
+                      data-gallery={JSON.stringify(item.gallery.map((shot) => ({ ...shot, image: withBase(shot.image) })))}
+                    >
+                      <span class="inline-flex items-center gap-2"><PenTool size={16} /> Смотреть дизайн</span>
+                      <ArrowUpRight size={17} />
+                    </button>
+                  </div>
                 </div>
-                <div>
-                  <h2 class="text-2xl font-black leading-tight text-ink">{item.title}</h2>
-                  <p class="mt-3 leading-7 text-muted">{item.description}</p>
+              ) : (
+                <div class="grid h-full">
+                  <a class="case-cover group text-left" href={item.url} target="_blank" rel="noreferrer" aria-label={`Открыть сайт ${item.title}`}>
+                    <img src={withBase(item.cover)} alt={item.title} loading="lazy" />
+                    <span class="case-cover-badge">
+                      <ExternalLink size={13} /> site
+                    </span>
+                  </a>
+                  <div class="case-card-body">
+                    <div class="flex flex-wrap gap-2">
+                      {item.tags.map((tag) => <Badge>{tag}</Badge>)}
+                    </div>
+                    <div>
+                      <h2 class="text-2xl font-black leading-tight text-ink">{item.title}</h2>
+                      <p class="mt-3 leading-7 text-muted">{item.description}</p>
+                    </div>
+                    <a class="case-card-action" href={item.url} target="_blank" rel="noreferrer">
+                      <span class="inline-flex items-center gap-2"><ExternalLink size={16} /> Открыть сайт</span>
+                      <ArrowUpRight size={17} />
+                    </a>
+                  </div>
                 </div>
-                <div class="flex items-center justify-between border-t border-slate-100 pt-4 text-sm font-bold text-blue">
-                  <span class="inline-flex items-center gap-2"><PanelRightOpen size={16} /> Смотреть</span>
-                  <ArrowUpRight size={17} />
-                </div>
-              </div>
-            </button>
-          </article>
-        ))}
+              )}
+            </article>
+          );
+        })}
       </div>
     </div>
   </section>
@@ -194,17 +282,24 @@ const caseItems = [
     <div class="case-drawer__panel">
       <div class="flex items-start justify-between gap-4 border-b border-slate-200 p-6">
         <div>
-          <p class="text-sm font-bold text-blue">Case preview</p>
+          <p class="text-sm font-bold text-blue">Figma case</p>
           <h2 class="mt-2 text-3xl font-black leading-tight text-ink" data-drawer-title></h2>
           <p class="mt-3 leading-7 text-muted" data-drawer-description></p>
+          <p class="mt-3 text-sm font-bold text-slate-500" data-drawer-role></p>
         </div>
         <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm font-black text-ink" type="button" data-close-drawer>Закрыть</button>
       </div>
-      <div class="grid gap-4 p-6">
+      <div class="grid gap-5 p-6">
         <a class="hidden items-center gap-2 rounded-lg bg-ink px-4 py-3 text-sm font-black text-white" href="#" target="_blank" rel="noreferrer" data-drawer-link>
-          <Link2 size={16} /> Открыть ссылку
+          <Link2 size={16} /> Открыть Figma
         </a>
-        <div class="grid gap-3" data-drawer-gallery></div>
+        <div class="case-embed hidden" data-drawer-embed-wrap>
+          <iframe title="Figma preview" loading="lazy" allowfullscreen data-drawer-embed></iframe>
+        </div>
+        <div>
+          <p class="mb-3 text-sm font-black uppercase tracking-normal text-blue">Галерея экранов</p>
+          <div class="grid gap-3" data-drawer-gallery></div>
+        </div>
       </div>
     </div>
   </aside>
@@ -213,7 +308,7 @@ const caseItems = [
     <button class="case-lightbox__close" type="button" data-close-lightbox>Закрыть</button>
     <button class="case-lightbox__nav" type="button" data-lightbox-prev>Назад</button>
     <div class="case-lightbox__content">
-      <div class="lightbox-art" data-lightbox-art></div>
+      <img class="lightbox-image" src="" alt="" data-lightbox-image />
       <div class="mt-5 flex items-center justify-center gap-2 text-white">
         <Maximize2 size={18} />
         <h2 class="text-center text-2xl font-black" data-lightbox-title></h2>
@@ -221,6 +316,7 @@ const caseItems = [
     </div>
     <button class="case-lightbox__nav" type="button" data-lightbox-next>Вперед</button>
   </div>
+
   <style>
     .case-tab {
       border-color: rgb(226 232 240);
@@ -237,6 +333,72 @@ const caseItems = [
 
     .case-item[hidden] {
       display: none;
+    }
+
+    .case-cover {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid rgb(226 232 240);
+      background: #e2e8f0;
+      aspect-ratio: 16 / 10;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .case-cover img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 480ms ease;
+    }
+
+    .case-item:hover .case-cover img {
+      transform: scale(1.045);
+    }
+
+    .case-cover-badge {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.92);
+      padding: 0.35rem 0.7rem;
+      color: var(--color-ink);
+      font-size: 0.75rem;
+      font-weight: 900;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+    }
+
+    .case-card-body {
+      display: grid;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .case-card-action {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      border: 0;
+      border-top: 1px solid rgb(241 245 249);
+      background: transparent;
+      padding-top: 1rem;
+      color: var(--color-blue);
+      font-size: 0.875rem;
+      font-weight: 900;
+      cursor: pointer;
     }
 
     .case-drawer,
@@ -262,7 +424,8 @@ const caseItems = [
     .case-drawer__panel {
       margin-left: auto;
       min-height: 100%;
-      width: min(720px, 100%);
+      width: min(760px, 100%);
+      overflow-y: auto;
       background: #fff;
       box-shadow: -28px 0 90px rgba(15, 23, 42, 0.28);
       transform: translateX(100%);
@@ -271,6 +434,20 @@ const caseItems = [
 
     .case-drawer.is-open .case-drawer__panel {
       transform: translateX(0);
+    }
+
+    .case-embed {
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid rgb(226 232 240);
+      background: #f8fafc;
+      aspect-ratio: 16 / 9;
+    }
+
+    .case-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
     }
 
     .gallery-thumb {
@@ -283,21 +460,32 @@ const caseItems = [
       background: #fff;
       padding: 0.75rem;
       text-align: left;
+      transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
     }
 
-    .gallery-art,
-    .lightbox-art {
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background:
-        linear-gradient(135deg, rgba(79, 140, 255, 0.36), transparent 34%),
-        linear-gradient(225deg, rgba(32, 212, 246, 0.24), transparent 40%),
-        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 24px),
-        #111827;
+    .gallery-thumb:hover {
+      transform: translateY(-2px);
+      border-color: rgba(79, 140, 255, 0.45);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
     }
 
     .gallery-art {
+      overflow: hidden;
       min-height: 72px;
+      border-radius: 8px;
+      border: 1px solid rgb(226 232 240);
+      background: #e2e8f0;
+    }
+
+    .gallery-art img {
+      display: block;
+      width: 100%;
+      height: 72px;
+      object-fit: cover;
+      object-position: top center;
     }
 
     .case-lightbox {
@@ -313,10 +501,13 @@ const caseItems = [
       min-width: 0;
     }
 
-    .lightbox-art {
+    .lightbox-image {
+      display: block;
+      max-height: min(76vh, 820px);
+      max-width: min(1120px, 100%);
       margin-inline: auto;
-      height: min(72vh, 760px);
-      max-width: 1120px;
+      border-radius: 8px;
+      object-fit: contain;
       box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
     }
 
@@ -351,6 +542,10 @@ const caseItems = [
       .gallery-thumb {
         grid-template-columns: 88px minmax(0, 1fr);
       }
+
+      .gallery-art img {
+        height: 64px;
+      }
     }
   </style>
 
@@ -361,27 +556,36 @@ const caseItems = [
     const drawer = document.querySelector('[data-case-drawer]');
     const drawerTitle = document.querySelector('[data-drawer-title]');
     const drawerDescription = document.querySelector('[data-drawer-description]');
+    const drawerRole = document.querySelector('[data-drawer-role]');
     const drawerLink = document.querySelector('[data-drawer-link]');
+    const drawerEmbedWrap = document.querySelector('[data-drawer-embed-wrap]');
+    const drawerEmbed = document.querySelector('[data-drawer-embed]');
     const drawerGallery = document.querySelector('[data-drawer-gallery]');
     const lightbox = document.querySelector('[data-case-lightbox]');
     const lightboxTitle = document.querySelector('[data-lightbox-title]');
-    const lightboxArt = document.querySelector('[data-lightbox-art]');
+    const lightboxImage = document.querySelector('[data-lightbox-image]');
     let activeGallery = [];
     let activeIndex = 0;
 
+    const setActiveTab = (active) => {
+      tabs.forEach((button) => button.classList.toggle('is-active', button.getAttribute('data-tab') === active));
+      items.forEach((item) => item.toggleAttribute('hidden', item.getAttribute('data-tab-panel') !== active));
+    };
+
     tabs.forEach((tab) => {
       tab.addEventListener('click', () => {
-        const active = tab.getAttribute('data-tab');
-        tabs.forEach((button) => button.classList.toggle('is-active', button === tab));
-        items.forEach((item) => item.toggleAttribute('hidden', item.getAttribute('data-tab-panel') !== active));
+        setActiveTab(tab.getAttribute('data-tab'));
       });
     });
+
+    setActiveTab(tabs[0]?.getAttribute('data-tab'));
 
     const openLightbox = (index) => {
       activeIndex = index;
       const item = activeGallery[activeIndex];
       lightboxTitle.textContent = item.title;
-      lightboxArt.setAttribute('data-visual', item.visual);
+      lightboxImage.src = item.image;
+      lightboxImage.alt = item.title;
       lightbox.classList.add('is-open');
       lightbox.setAttribute('aria-hidden', 'false');
     };
@@ -391,17 +595,24 @@ const caseItems = [
         activeGallery = JSON.parse(button.getAttribute('data-gallery') || '[]');
         drawerTitle.textContent = button.getAttribute('data-title') || '';
         drawerDescription.textContent = button.getAttribute('data-description') || '';
+        drawerRole.textContent = button.getAttribute('data-role') ? `Роль: ${button.getAttribute('data-role')}` : '';
+
         const url = button.getAttribute('data-url');
         drawerLink.classList.toggle('hidden', !url);
         drawerLink.classList.toggle('inline-flex', Boolean(url));
         if (url) drawerLink.setAttribute('href', url);
+
+        const embed = button.getAttribute('data-embed');
+        drawerEmbedWrap.classList.toggle('hidden', !embed);
+        if (embed) drawerEmbed.setAttribute('src', embed);
+
         drawerGallery.innerHTML = activeGallery
           .map((item, index) => `
             <button class="gallery-thumb" type="button" data-open-shot="${index}">
-              <span class="gallery-art" data-visual="${item.visual}"></span>
+              <span class="gallery-art"><img src="${item.image}" alt="${item.title}" loading="lazy" /></span>
               <span>
                 <span class="block text-base font-black text-ink">${item.title}</span>
-                <span class="mt-1 block text-sm text-muted">Нажмите, чтобы открыть на весь экран</span>
+                <span class="mt-1 block text-sm text-muted">Открыть экран крупнее</span>
               </span>
               <span class="hidden text-blue md:inline"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></span>
             </button>
@@ -420,6 +631,7 @@ const caseItems = [
     const closeDrawer = () => {
       drawer.classList.remove('is-open');
       drawer.setAttribute('aria-hidden', 'true');
+      drawerEmbed.removeAttribute('src');
     };
 
     document.querySelector('[data-close-drawer]').addEventListener('click', closeDrawer);
@@ -428,10 +640,13 @@ const caseItems = [
       if (event.target === drawer) closeDrawer();
     });
 
-    document.querySelector('[data-close-lightbox]').addEventListener('click', () => {
+    const closeLightbox = () => {
       lightbox.classList.remove('is-open');
       lightbox.setAttribute('aria-hidden', 'true');
-    });
+      lightboxImage.removeAttribute('src');
+    };
+
+    document.querySelector('[data-close-lightbox]').addEventListener('click', closeLightbox);
 
     document.querySelector('[data-lightbox-prev]').addEventListener('click', () => {
       openLightbox((activeIndex - 1 + activeGallery.length) % activeGallery.length);
@@ -443,8 +658,7 @@ const caseItems = [
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
-        lightbox.classList.remove('is-open');
-        lightbox.setAttribute('aria-hidden', 'true');
+        closeLightbox();
         closeDrawer();
       }
     });

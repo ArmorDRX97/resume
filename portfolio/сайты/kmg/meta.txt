@@ -1,0 +1,15 @@
+title: ҚазМұнайГаз
+type: site
+url: https://www.kmg.kz/
+tags: Site, Responsive, UI/UX, Frontend
+year: 2026
+role: UI/UX, frontend
+priority: 1
+
+description:
+Частичная реализация дизайна и верстка страниц под существующий бэкенд
+
+features:
+- Адаптивная главная страница
+- Визуальная подача продукта
+

@@ -1,0 +1,7 @@
+Сайт
+
+Дизайн сайта продукта. Был реализован давно совместно с другим дизайнером. На данный момент сайт продукта уже другой.
+
+Код для встраивания
+
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/jHsDs7Rt0b0wp4Mb5Hg2hb/Hitarget?node-id=147-1&embed-host=share" allowfullscreen></iframe>ы

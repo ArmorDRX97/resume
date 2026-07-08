@@ -1,0 +1,7 @@
+Мобильное приложение
+
+Дизайн мобильного приложения медицинских услуг. Разработан полный концепт и отработаны все возможные сценарии на момент завершения работы.
+
+
+Код для встраивания
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/5JLu7Y1RUZZoFhGq1Cq5vg/mobile-App-PULS-UI%5CUX?node-id=882-129&embed-host=share" allowfullscreen></iframe>

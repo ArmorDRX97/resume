@@ -1,0 +1,15 @@
+title: BInTech
+type: site
+url: https://bintech.kz/
+tags: Site, Responsive, UI/UX, Frontend
+year: 2026
+role: UI/UX, frontend
+priority: 1
+
+description:
+Одностраничный сайт компании
+
+features:
+- Адаптивная главная страница
+- Визуальная подача продукта
+

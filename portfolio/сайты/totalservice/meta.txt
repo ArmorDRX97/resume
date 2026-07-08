@@ -1,0 +1,15 @@
+title: Total Service
+type: site
+url: https://totalservice.kz/
+tags: Site, Responsive, UI/UX, Frontend
+year: 2026
+role: UI/UX, frontend
+priority: 1
+
+description:
+Сложная реализация верстки по сложному дизайну
+
+features:
+- Адаптивная главная страница
+- Визуальная подача продукта
+

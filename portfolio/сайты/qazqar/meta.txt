@@ -1,0 +1,15 @@
+title: QazQar
+type: site
+url: https://qazqar.kz/
+tags: Site, Responsive, UI/UX, Frontend, Backend
+year: 2026
+role: UI/UX, frontend
+priority: 1
+
+description:
+Реализация сайта по прокату автомобилей:от дизайна до бэкенда
+
+features:
+- Адаптивная главная страница
+- Визуальная подача продукта
+

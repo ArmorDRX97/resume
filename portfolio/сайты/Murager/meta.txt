@@ -1,0 +1,16 @@
+title: Murager
+type: site
+url: https://murager.kazatomprom.kz/
+tags: Site, Responsive, UI/UX, Frontend
+year: 2026
+role: UI/UX, frontend
+priority: 1
+онный пример карточки сайта с обложкой, описанием и набором плашек.
+
+description:
+Программа образовательных грантов «Казатомпром». Сайт создан сразу в виде верстки, а также был реализован мини-backend на Laravel для максимально наглядной демонстрации работы сайта
+
+features:
+- Адаптивная главная страница
+- Визуальная подача продукта
+
