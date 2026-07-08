@@ -13,7 +13,7 @@ const whatsapp = `https://wa.me/${phoneDigits}`;
   <div class="container grid gap-10 py-14 md:grid-cols-[1.3fr_0.7fr_0.7fr]">
     <div>
       <p class="text-sm font-bold uppercase tracking-[0.08em] text-cyan">UI/UX Designer & Product Developer</p>
-      <h2 class="mt-4 max-w-xl text-3xl font-black leading-tight text-white">
+      <h2 class="mt-4 max-w-xl text-2xl font-black leading-tight text-white">
         Проектирую интерфейсы, которые можно не только показать, но и внедрить.
       </h2>
       <div class="mt-6 flex flex-wrap gap-3">
@@ -33,14 +33,14 @@ const whatsapp = `https://wa.me/${phoneDigits}`;
     </div>
 
     <div>
-      <p class="mb-4 text-sm font-bold text-white">Navigation</p>
+      <p class="mb-4 text-sm font-bold text-white">Навигация</p>
       <nav class="grid gap-3 text-sm text-slate-300">
         {navigation.map((item) => <a class="hover:text-white" href={withBase(item.href)}>{item.label}</a>)}
       </nav>
     </div>
 
     <div>
-      <p class="mb-4 text-sm font-bold text-white">Contacts</p>
+      <p class="mb-4 text-sm font-bold text-white">Контакты</p>
       <div class="grid gap-3 text-sm text-slate-300">
         <a class="hover:text-white" href={phoneHref}>Телефон: {contact.phone}</a>
         <a class="hover:text-white" href={whatsapp} target="_blank" rel="noreferrer">WhatsApp: {contact.phone}</a>

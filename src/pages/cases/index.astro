@@ -1,5 +1,5 @@
 ---
-import { ArrowUpRight, ExternalLink, Images, Link2, Maximize2, Monitor, PenTool, ShieldCheck } from '@lucide/astro';
+import { ArrowUpRight, ExternalLink, Link2, Maximize2, Monitor, PenTool, ShieldCheck } from '@lucide/astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Badge from '@/components/ui/Badge.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
@@ -101,13 +101,6 @@ const caseItems = [
     embed: 'https://embed.figma.com/design/cSPMBtyYVBjGI63XAlQ6eY/balasan-UI-UX?node-id=1510-57&embed-host=share',
     tags: ['mobile app', 'dashboard', 'face recognition', 'UX'],
     role: 'UI/UX, product logic',
-    gallery: [
-      { title: 'Мобильный сценарий', image: '/images/portfolio/figma/balasan/gallery/01-mobile-flow.png' },
-      { title: 'Карточка и данные ребенка', image: '/images/portfolio/figma/balasan/gallery/02-child-profile.png' },
-      { title: 'Сканирование лица', image: '/images/portfolio/figma/balasan/gallery/03-face-scan.png' },
-      { title: 'Мобильный dashboard', image: '/images/portfolio/figma/balasan/gallery/04-dashboard-mobile.png' },
-      { title: 'Состояния и дополнительные экраны', image: '/images/portfolio/figma/balasan/gallery/05-states.png' },
-    ],
   },
   {
     tab: 'designs',
@@ -119,12 +112,6 @@ const caseItems = [
     embed: 'https://embed.figma.com/design/jHsDs7Rt0b0wp4Mb5Hg2hb/Hitarget?node-id=147-1&embed-host=share',
     tags: ['product site', 'web UI', 'Figma', 'collaboration'],
     role: 'UI/UX',
-    gallery: [
-      { title: 'Главная страница', image: '/images/portfolio/figma/hitarget/gallery/01-home.jpg' },
-      { title: 'Dashboard', image: '/images/portfolio/figma/hitarget/gallery/02-dashboard.jpg' },
-      { title: 'Состояние dashboard', image: '/images/portfolio/figma/hitarget/gallery/03-dashboard-state.jpg' },
-      { title: 'Contact us', image: '/images/portfolio/figma/hitarget/gallery/04-contact-us.jpg' },
-    ],
   },
   {
     tab: 'designs',
@@ -136,12 +123,6 @@ const caseItems = [
     embed: 'https://embed.figma.com/design/5JLu7Y1RUZZoFhGq1Cq5vg/mobile-App-PULS-UI%5CUX?node-id=882-129&embed-host=share',
     tags: ['mobile app', 'healthcare', 'UX flows', 'Figma'],
     role: 'UI/UX',
-    gallery: [
-      { title: 'Главный экран', image: '/images/portfolio/figma/puls/gallery/01-home.jpg' },
-      { title: 'Сценарий услуги', image: '/images/portfolio/figma/puls/gallery/02-service-flow.jpg' },
-      { title: 'Запись и детали', image: '/images/portfolio/figma/puls/gallery/03-booking-flow.jpg' },
-      { title: 'Профиль пользователя', image: '/images/portfolio/figma/puls/gallery/04-profile.jpg' },
-    ],
   },
   {
     tab: 'designs',
@@ -153,12 +134,6 @@ const caseItems = [
     embed: 'https://embed.figma.com/design/NEKl84s43dYf3RJXJXZUz9/Qazqar-mobile-App-UI-UX?node-id=661-3622&embed-host=share',
     tags: ['mobile app', 'car rental', 'filters', 'UX'],
     role: 'UI/UX',
-    gallery: [
-      { title: 'Авторизация', image: '/images/portfolio/figma/qazqar-app/gallery/01-auth.jpg' },
-      { title: 'Главная', image: '/images/portfolio/figma/qazqar-app/gallery/02-home.jpg' },
-      { title: 'Список автомобилей', image: '/images/portfolio/figma/qazqar-app/gallery/03-car-list.jpg' },
-      { title: 'Фильтры', image: '/images/portfolio/figma/qazqar-app/gallery/04-filters.jpg' },
-    ],
   },
 ] as const;
 ---
@@ -202,10 +177,10 @@ const caseItems = [
 
       <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-case-grid>
         {caseItems.map((item) => {
-          const hasGallery = 'gallery' in item && item.gallery.length > 0;
+          const isDesign = item.tab === 'designs';
           return (
             <article class="case-item reveal magnetic-card grid h-full overflow-hidden rounded-lg border border-slate-200 bg-white p-3 shadow-soft" data-case-item data-tab-panel={item.tab}>
-              {hasGallery ? (
+              {isDesign ? (
                 <div class="grid h-full">
                   <button
                     type="button"
@@ -216,12 +191,11 @@ const caseItems = [
                     data-url={item.url}
                     data-embed={item.embed}
                     data-role={item.role}
-                    data-gallery={JSON.stringify(item.gallery.map((shot) => ({ ...shot, image: withBase(shot.image) })))}
                     aria-label={`Смотреть дизайн ${item.title}`}
                   >
                     <img src={withBase(item.cover)} alt={item.title} loading="lazy" />
                     <span class="case-cover-badge">
-                      <Images size={13} /> {item.gallery.length}
+                      <PenTool size={13} /> Figma
                     </span>
                   </button>
                   <div class="case-card-body">
@@ -241,7 +215,6 @@ const caseItems = [
                       data-url={item.url}
                       data-embed={item.embed}
                       data-role={item.role}
-                      data-gallery={JSON.stringify(item.gallery.map((shot) => ({ ...shot, image: withBase(shot.image) })))}
                     >
                       <span class="inline-flex items-center gap-2"><PenTool size={16} /> Смотреть дизайн</span>
                       <ArrowUpRight size={17} />
@@ -296,7 +269,7 @@ const caseItems = [
         <div class="case-embed hidden" data-drawer-embed-wrap>
           <iframe title="Figma preview" loading="lazy" allowfullscreen data-drawer-embed></iframe>
         </div>
-        <div>
+        <div data-drawer-gallery-wrap class="hidden">
           <p class="mb-3 text-sm font-black uppercase tracking-normal text-blue">Галерея экранов</p>
           <div class="grid gap-3" data-drawer-gallery></div>
         </div>
@@ -551,6 +524,11 @@ const caseItems = [
 
   <script>
     // @ts-nocheck
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
     const tabs = document.querySelectorAll('[data-tab]');
     const items = document.querySelectorAll('[data-case-item]');
     const drawer = document.querySelector('[data-case-drawer]');
@@ -561,6 +539,7 @@ const caseItems = [
     const drawerEmbedWrap = document.querySelector('[data-drawer-embed-wrap]');
     const drawerEmbed = document.querySelector('[data-drawer-embed]');
     const drawerGallery = document.querySelector('[data-drawer-gallery]');
+    const drawerGalleryWrap = document.querySelector('[data-drawer-gallery-wrap]');
     const lightbox = document.querySelector('[data-case-lightbox]');
     const lightboxTitle = document.querySelector('[data-lightbox-title]');
     const lightboxImage = document.querySelector('[data-lightbox-image]');
@@ -570,6 +549,7 @@ const caseItems = [
     const setActiveTab = (active) => {
       tabs.forEach((button) => button.classList.toggle('is-active', button.getAttribute('data-tab') === active));
       items.forEach((item) => item.toggleAttribute('hidden', item.getAttribute('data-tab-panel') !== active));
+      ScrollTrigger.refresh();
     };
 
     tabs.forEach((tab) => {
@@ -606,6 +586,7 @@ const caseItems = [
         drawerEmbedWrap.classList.toggle('hidden', !embed);
         if (embed) drawerEmbed.setAttribute('src', embed);
 
+        drawerGalleryWrap.classList.toggle('hidden', activeGallery.length === 0);
         drawerGallery.innerHTML = activeGallery
           .map((item, index) => `
             <button class="gallery-thumb" type="button" data-open-shot="${index}">
