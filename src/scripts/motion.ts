@@ -73,18 +73,6 @@ if (!reduceMotion) {
     });
   });
 
-  gsap.utils.toArray<HTMLElement>('[data-skill-bar]').forEach((bar) => {
-    gsap.to(bar, {
-      width: bar.style.getPropertyValue('--skill-target') || '100%',
-      duration: 1.35,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: bar,
-        start: 'top 86%',
-        once: true,
-      },
-    });
-  });
 } else {
   document.querySelectorAll('.reveal').forEach((element) => {
     element.classList.remove('reveal');

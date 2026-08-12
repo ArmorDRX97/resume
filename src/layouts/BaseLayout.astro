@@ -2,37 +2,56 @@
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
 import { withBase } from '@/utils/path';
+import type { Locale } from '@/data/site';
 import '@/styles/global.css';
 
 const {
-  title = 'Timur Khairullin - UI/UX Designer & Product Developer',
-  description = 'Portfolio of Timur Khairullin, UI/UX Designer & Product Developer from Astana. Product interfaces, design systems, corporate systems, web design and frontend implementation.',
-  ogImage = '/images/og/default.webp',
+  locale = 'ru',
+  title = 'Timur Khairullin — Product Designer',
+  description = 'Product Designer focused on complex B2B products, web/mobile interfaces, design systems and technical prototyping.',
+  ogImage = '/og.png',
 } = Astro.props;
+const language = locale as Locale;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const base = import.meta.env.BASE_URL || '/';
+const relativePath = Astro.url.pathname.startsWith(base)
+  ? `/${Astro.url.pathname.slice(base.length)}`.replace(/\/{2,}/g, '/')
+  : Astro.url.pathname;
+const is404 = ['/404', '/404/', '/404.html', '/en/404', '/en/404/'].includes(relativePath);
+const ruPath = is404 ? '/404.html' : relativePath.startsWith('/en/') ? relativePath.slice(3) || '/' : relativePath;
+const enPath = is404 ? '/en/404/' : relativePath.startsWith('/en/') ? relativePath : `/en${relativePath}`.replace(/\/{2,}/g, '/');
+const ogImageUrl = new URL(withBase(ogImage), Astro.site);
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang={language}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ru" href={new URL(withBase(ruPath), Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(withBase(enPath), Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(withBase('/'), Astro.site)} />
     <link rel="icon" href={withBase('/favicon.svg')} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage.startsWith('/') ? withBase(ogImage) : ogImage} />
+    <meta property="og:locale" content={language === 'ru' ? 'ru_RU' : 'en_US'} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
   </head>
   <body>
-    <Header />
-    <main>
+    <a class="skip-link" href="#main-content">{language === 'ru' ? 'Перейти к содержанию' : 'Skip to content'}</a>
+    <Header locale={language} />
+    <main id="main-content">
       <slot />
     </main>
-    <Footer />
+    <Footer locale={language} />
     <script>
       import '@/scripts/motion';
     </script>

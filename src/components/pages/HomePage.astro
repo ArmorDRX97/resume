@@ -1,0 +1,202 @@
+---
+import { ArrowDown, ArrowUpRight, Boxes, Braces, BriefcaseBusiness, Mail, MonitorSmartphone, Network, PanelsTopLeft, PenTool, Workflow } from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import Badge from '@/components/ui/Badge.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import ProjectCard from '@/components/cards/ProjectCard.astro';
+import { coreExpertise } from '@/data/skills';
+import { experience } from '@/data/experience';
+import { featuredCases } from '@/data/projects';
+import { localizedPath, siteConfig, ui, type Locale } from '@/data/site';
+
+const { locale = 'ru' } = Astro.props as { locale?: Locale };
+const copy = ui[locale];
+const icons = [PenTool, Network, MonitorSmartphone, PanelsTopLeft, Braces, Workflow];
+const process = locale === 'ru'
+  ? ['Требования', 'Продуктовая логика', 'UX', 'UI', 'Прототип', 'Handoff']
+  : ['Requirements', 'Product logic', 'UX', 'UI', 'Prototype', 'Handoff'];
+const description = locale === 'ru'
+  ? 'Product Designer: сложные B2B-продукты, web/mobile интерфейсы, дизайн-системы и техническое прототипирование.'
+  : 'Product Designer focused on complex B2B products, web/mobile interfaces, design systems and technical prototyping.';
+const featuredExperience = experience.slice(0, 3);
+---
+
+<BaseLayout locale={locale} title="Timur Khairullin — Product Designer" description={description}>
+  <section class="hero-wave-section relative isolate overflow-hidden bg-graphite text-white">
+    <canvas data-hero-scene class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+    <div class="hero-grid pointer-events-none absolute inset-0"></div>
+    <div class="noise-overlay pointer-events-none absolute inset-0 opacity-20"></div>
+    <div class="hero-readability pointer-events-none absolute inset-0"></div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-graphite to-transparent"></div>
+
+    <div class="container relative z-10 flex min-h-[calc(100vh-64px)] flex-col items-center justify-center py-20 text-center">
+      <p class="reveal eyebrow text-cyan">Timur Khairullin · {siteConfig.city[locale]}</p>
+      <h1 class="reveal mt-5 max-w-5xl text-balance text-5xl font-black leading-[0.95] text-white sm:text-6xl md:text-8xl">Product Designer</h1>
+      <p class="reveal mt-6 max-w-4xl text-balance text-xl font-bold leading-8 text-white md:text-2xl md:leading-9">
+        {locale === 'ru'
+          ? 'Проектирую сложные цифровые продукты, B2B-системы и web/mobile-интерфейсы — от требований и бизнес-логики до UX/UI, дизайн-системы и передачи в разработку.'
+          : 'I design complex digital products, B2B systems and web/mobile interfaces — from requirements and business logic to UX/UI, design systems and development handoff.'}
+      </p>
+      <p class="reveal mt-5 max-w-3xl text-base leading-7 text-slate-300 md:text-lg md:leading-8">
+        {locale === 'ru'
+          ? 'Frontend background помогает учитывать реальные ограничения разработки и собирать интерактивные прототипы, которыми можно пользоваться, а не только смотреть.'
+          : 'My frontend background helps me account for real implementation constraints and build interactive prototypes people can use, not just view.'}
+      </p>
+      <div class="reveal mt-8 flex flex-wrap justify-center gap-3">
+        <Button href={localizedPath(locale, '/cases/')} variant="light"><BriefcaseBusiness size={16} /> {copy.viewCases}</Button>
+        {siteConfig.resumeUrl ? (
+          <Button href={siteConfig.resumeUrl} variant="secondary" target="_blank">{locale === 'ru' ? 'Скачать CV' : 'Download CV'}</Button>
+        ) : (
+          <Button href={`mailto:${siteConfig.email}`} variant="secondary"><Mail size={16} /> {copy.contact}</Button>
+        )}
+      </div>
+      <div class="reveal mt-10 flex max-w-4xl flex-wrap justify-center gap-2">
+        {copy.positioning.split(' · ').map((item) => <Badge tone="dark">{item}</Badge>)}
+      </div>
+      <a href="#featured-work" class="reveal mt-12 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-slate-300 transition hover:text-cyan">
+        <ArrowDown size={16} aria-hidden="true" /> {locale === 'ru' ? 'К избранным кейсам' : 'Explore featured work'}
+      </a>
+    </div>
+  </section>
+
+  <section class="section bg-white" id="featured-work">
+    <div class="container">
+      <div class="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <SectionTitle
+          eyebrow="Featured Work"
+          title={locale === 'ru' ? 'Сначала — доказательства в работах' : 'Work first, claims second'}
+          text={locale === 'ru' ? 'Три кейса показывают работу со сложными системами, data-heavy интерфейсами, web/mobile сценариями и реальными ограничениями разработки.' : 'Three cases show my work across complex systems, data-heavy interfaces, web/mobile flows and real implementation constraints.'}
+        />
+        <Button href={localizedPath(locale, '/cases/')} variant="secondary">{copy.allCases}</Button>
+      </div>
+      <div class="grid gap-7 lg:grid-cols-3" data-portfolio-grid>
+        {featuredCases.map((project) => <div data-portfolio-card><ProjectCard project={project} locale={locale} featured /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-slate-50">
+    <div class="container">
+      <SectionTitle
+        eyebrow="Core Expertise"
+        title={locale === 'ru' ? 'Что мне можно доверить' : 'What I can take ownership of'}
+        text={locale === 'ru' ? 'Основной профиль — Product Design. Технические и визуальные навыки поддерживают его, а не конкурируют с ним.' : 'Product Design is the core profile. Technical and visual skills strengthen it rather than compete with it.'}
+      />
+      <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {coreExpertise.map((item, index) => {
+          const Icon = icons[index] ?? Boxes;
+          return (
+            <article class="reveal expertise-card rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
+              <span class="grid size-11 place-items-center rounded-lg bg-ink text-white"><Icon size={21} aria-hidden="true" /></span>
+              <h2 class="mt-5 text-xl font-black text-ink">{item.title[locale]}</h2>
+              <p class="mt-3 leading-7 text-muted">{item.text[locale]}</p>
+            </article>
+          );
+        })}
+      </div>
+      <div class="mt-8"><Button href={localizedPath(locale, '/skills/')} variant="secondary">{locale === 'ru' ? 'Полная структура навыков' : 'Full skills breakdown'}</Button></div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container process-layout">
+      <SectionTitle
+        eyebrow="How I work"
+        title={locale === 'ru' ? 'От задачи к реализуемому решению' : 'From problem to implementable solution'}
+        text={locale === 'ru' ? 'Короткая рабочая цепочка помогает не терять бизнес-логику между требованиями, дизайном и разработкой.' : 'A compact workflow keeps business logic intact across requirements, design and implementation.'}
+      />
+      <ol class="process-steps grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {process.map((item, index) => (
+          <li class="reveal rounded-lg border border-slate-200 bg-slate-50 p-5">
+            <span class="text-xs font-black text-blue">0{index + 1}</span><p class="mt-3 text-lg font-black text-ink">{item}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section bg-slate-50">
+    <div class="container">
+      <div class="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <SectionTitle
+          eyebrow="Experience"
+          title={locale === 'ru' ? 'Эволюция от web к сложным продуктам' : 'From web delivery to complex products'}
+          text={locale === 'ru' ? 'Опыт вырос от web/digital задач и frontend к CRM, ERP, государственным системам и Product Design.' : 'The work evolved from web/digital delivery and frontend into CRM, ERP, government systems and Product Design.'}
+        />
+        <Button href={localizedPath(locale, '/experience/')} variant="secondary">{locale === 'ru' ? 'Весь опыт' : 'Full experience'}</Button>
+      </div>
+      <div class="grid gap-4 lg:grid-cols-3">
+        {featuredExperience.map((item) => (
+          <article class="reveal rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
+            <p class="text-sm font-black text-blue">{item.period[locale]}</p>
+            <h2 class="mt-3 text-2xl font-black text-ink">{item.company}</h2>
+            <p class="mt-2 text-sm font-bold text-slate-500">{item.role[locale]}</p>
+            <p class="mt-4 leading-7 text-muted">{item.summary[locale]}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark-band">
+    <div class="container mockup-feature">
+      <div class="reveal">
+        <p class="eyebrow text-cyan">Technical advantage</p>
+        <h2 class="mt-4 max-w-3xl text-balance text-3xl font-black leading-tight text-white md:text-5xl">Click, not show</h2>
+        <p class="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+          {locale === 'ru'
+            ? 'Я понимаю frontend достаточно глубоко, чтобы проектировать реалистичные интерфейсы и при необходимости превращать дизайн в работающий прототип. Так можно проверить данные, состояния, responsive-поведение и стоимость решения раньше.'
+            : 'I understand frontend deeply enough to design realistic interfaces and, when useful, turn design into a working prototype. That makes it possible to evaluate data, states, responsive behavior and implementation cost earlier.'}
+        </p>
+        <ul class="mt-7 grid gap-3 text-slate-200 sm:grid-cols-2">
+          {(locale === 'ru'
+            ? ['Реальные UI-состояния', 'Разговор с разработкой на одном языке', 'Проверка responsive-поведения', 'Handoff без скрытой сложности']
+            : ['Real UI states', 'A shared language with developers', 'Responsive behavior checks', 'Handoff without hidden complexity']
+          ).map((item) => <li class="flex items-center gap-2"><span class="size-2 rounded-full bg-cyan"></span>{item}</li>)}
+        </ul>
+      </div>
+      <div class="reveal glass-panel rounded-lg p-4" aria-label={locale === 'ru' ? 'Демонстрация интерактивного прототипа' : 'Interactive prototype demonstration'}>
+        <div class="prototype-window rounded-lg border border-white/10 bg-black/30 p-4">
+          <div class="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
+            <div class="flex gap-1.5"><span></span><span></span><span></span></div><span class="text-xs font-black text-cyan">interactive prototype</span>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-[0.72fr_1.28fr]">
+            <div class="grid content-start gap-3 rounded-lg bg-white/8 p-3">
+              {['Overview', 'Orders', 'Customers', 'Reports'].map((item, index) => <button type="button" class={`prototype-nav ${index === 0 ? 'is-active' : ''}`}>{item}</button>)}
+            </div>
+            <div class="grid gap-3">
+              <div class="grid grid-cols-3 gap-3"><span class="h-20 rounded-lg bg-blue/25"></span><span class="h-20 rounded-lg bg-cyan/20"></span><span class="h-20 rounded-lg bg-lime-300/20"></span></div>
+              <div class="grid gap-2 rounded-lg bg-white/8 p-4"><span class="h-3 w-1/2 rounded bg-white/30"></span><span class="h-3 rounded bg-white/15"></span><span class="h-3 w-5/6 rounded bg-white/15"></span></div>
+              <div class="grid grid-cols-5 items-end gap-2 rounded-lg bg-white/8 p-4"><span class="h-16 rounded bg-blue/50"></span><span class="h-28 rounded bg-cyan/50"></span><span class="h-12 rounded bg-lime-300/50"></span><span class="h-24 rounded bg-blue/50"></span><span class="h-20 rounded bg-cyan/50"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container cta-layout rounded-lg border border-slate-200 bg-slate-50 p-8 shadow-soft md:p-10">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2 class="mt-4 text-balance text-3xl font-black text-ink md:text-4xl">{locale === 'ru' ? 'Обсудим сложный цифровой продукт?' : 'Working on a complex digital product?'}</h2>
+        <p class="mt-4 max-w-2xl leading-7 text-muted">{locale === 'ru' ? 'Напишите о продукте, роли и задачах — отвечу по email или в Telegram.' : 'Share the product, role and challenge — I can reply by email or Telegram.'}</p>
+      </div>
+      <div class="flex flex-col gap-3">
+        <a class="inline-flex min-h-12 items-center justify-between rounded-lg bg-ink px-5 py-3 font-black text-white" href={`mailto:${siteConfig.email}`}>{siteConfig.email}<ArrowUpRight size={18} aria-hidden="true" /></a>
+        <a class="inline-flex min-h-12 items-center justify-between rounded-lg border border-slate-200 bg-white px-5 py-3 font-black text-ink" href={siteConfig.telegram} target="_blank" rel="noreferrer">Telegram<ArrowUpRight size={18} aria-hidden="true" /></a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import '@/scripts/hero-scene';
+    document.querySelectorAll<HTMLButtonElement>('.prototype-nav').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.prototype-nav').forEach((item) => item.classList.remove('is-active'));
+        button.classList.add('is-active');
+      });
+    });
+  </script>
+</BaseLayout>

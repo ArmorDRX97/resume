@@ -47,6 +47,25 @@ select {
   outline-offset: 3px;
 }
 
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  border-radius: 0.5rem;
+  background: #fff;
+  padding: 0.75rem 1rem;
+  color: var(--color-ink);
+  font-weight: 800;
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-180%);
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .container {
   width: min(calc(100% - 32px), var(--container));
   margin-inline: auto;
@@ -105,14 +124,16 @@ select {
 }
 
 .site-action,
-.site-menu-trigger {
+.site-menu-trigger,
+.language-switch {
   border-color: rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
 .site-action:hover,
-.site-menu-trigger:hover {
+.site-menu-trigger:hover,
+.language-switch:hover {
   border-color: rgba(32, 212, 246, 0.5);
   background: rgba(32, 212, 246, 0.15);
 }
@@ -163,14 +184,16 @@ select {
 }
 
 .site-header.is-scrolled .site-action,
-.site-header.is-scrolled .site-menu-trigger {
+.site-header.is-scrolled .site-menu-trigger,
+.site-header.is-scrolled .language-switch {
   border-color: rgba(203, 213, 225, 0.95);
   background: #fff;
   color: var(--color-ink);
 }
 
 .site-header.is-scrolled .site-action:hover,
-.site-header.is-scrolled .site-menu-trigger:hover {
+.site-header.is-scrolled .site-menu-trigger:hover,
+.site-header.is-scrolled .language-switch:hover {
   border-color: rgba(79, 140, 255, 0.45);
   background: rgba(79, 140, 255, 0.08);
   color: var(--color-blue);
@@ -441,6 +464,144 @@ select {
 .experience-row {
   display: grid;
   gap: 1rem;
+}
+
+.project-card,
+.selected-work-card,
+.expertise-card,
+.contact-card {
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.project-card:hover,
+.selected-work-card:hover,
+.expertise-card:hover,
+.contact-card:hover {
+  border-color: rgba(79, 140, 255, 0.42);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
+  transform: translateY(-5px);
+}
+
+.project-card__media {
+  aspect-ratio: 16 / 10;
+}
+
+.project-card__media > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 500ms ease;
+}
+
+.project-card:hover .project-card__media > img {
+  transform: scale(1.035);
+}
+
+.project-card__media > .mock-grid {
+  min-height: 100%;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.skill-section-card--secondary {
+  background: rgba(248, 250, 252, 0.82);
+  box-shadow: none;
+}
+
+.case-section {
+  border: 1px solid rgb(226 232 240);
+  border-radius: 0.75rem;
+  background: #fff;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: var(--shadow-soft);
+}
+
+.case-section--accent {
+  border-color: rgba(79, 140, 255, 0.32);
+  background: linear-gradient(145deg, rgba(79, 140, 255, 0.06), #fff 44%);
+}
+
+.case-section--result {
+  border-color: rgba(32, 212, 246, 0.32);
+}
+
+.case-section h2 {
+  margin-top: 0.75rem;
+  color: var(--color-ink);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.case-section > p:not(.eyebrow) {
+  margin-top: 1rem;
+  color: var(--color-muted);
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+.case-section > ul {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.case-section > ul li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  border-radius: 0.65rem;
+  background: rgb(248 250 252);
+  padding: 1rem;
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+.case-section > ul svg {
+  flex: 0 0 auto;
+  margin-top: 0.25rem;
+  color: var(--color-blue);
+}
+
+.prototype-window > div:first-child > div span {
+  display: block;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 999px;
+  background: rgb(251 113 133);
+}
+
+.prototype-window > div:first-child > div span:nth-child(2) {
+  background: rgb(252 211 77);
+}
+
+.prototype-window > div:first-child > div span:nth-child(3) {
+  background: rgb(163 230 53);
+}
+
+.prototype-nav {
+  min-height: 2.5rem;
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.8rem;
+  color: rgb(203 213 225);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-align: left;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.prototype-nav:hover,
+.prototype-nav.is-active {
+  background: rgba(32, 212, 246, 0.16);
+  color: #fff;
 }
 
 @media (min-width: 768px) {

@@ -1,17 +1,5 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Button from '@/components/ui/Button.astro';
+import ExperiencePage from '@/components/pages/ExperiencePage.astro';
 ---
+<ExperiencePage locale="ru" />
 
-<BaseLayout title="Опыт работы - Timur Khairullin">
-  <section class="section">
-    <div class="container max-w-3xl">
-      <p class="eyebrow">Experience</p>
-      <h1 class="mt-4 text-balance text-5xl font-black leading-tight text-ink md:text-6xl">Опыт работы</h1>
-      <p class="mt-5 text-lg leading-8 text-muted">Компании, роли и проекты, где я занимался UI/UX, frontend, визуальными материалами, дизайн-системами и продуктовой реализацией</p>
-      <div class="mt-8">
-        <Button href="/experience/">Смотреть опыт</Button>
-      </div>
-    </div>
-  </section>
-</BaseLayout>

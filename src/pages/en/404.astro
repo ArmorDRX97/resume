@@ -1,0 +1,15 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+---
+<BaseLayout locale="en" title="Page not found — Timur Khairullin">
+  <section class="section bg-white">
+    <div class="container min-h-[55vh] text-center">
+      <p class="eyebrow">404</p>
+      <h1 class="mx-auto mt-4 max-w-3xl text-balance text-5xl font-black text-ink md:text-7xl">Page not found</h1>
+      <p class="mx-auto mt-5 max-w-xl text-lg leading-8 text-muted">The address may have changed. Return to the portfolio or open the work page.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3"><Button href="/en/" variant="primary">Home</Button><Button href="/en/cases/" variant="secondary">Work</Button></div>
+    </div>
+  </section>
+</BaseLayout>
+

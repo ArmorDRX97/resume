@@ -1,45 +1,81 @@
 ---
-import { Menu, Send } from '@lucide/astro';
-import { navigation } from '@/data/navigation';
+import { Languages, Mail, Menu } from '@lucide/astro';
+import { localizedPath, navigation, siteConfig, ui, type Locale } from '@/data/site';
 import { withBase } from '@/utils/path';
 
+const { locale = 'ru' } = Astro.props as { locale?: Locale };
 const currentPath = Astro.url.pathname;
-const normalizePath = (path: string) => {
-  const normalized = path.endsWith('/') ? path : `${path}/`;
-  return normalized;
-};
+const base = import.meta.env.BASE_URL || '/';
+const relativePath = currentPath.startsWith(base)
+  ? `/${currentPath.slice(base.length)}`.replace(/\/{2,}/g, '/')
+  : currentPath;
+const localePath = relativePath.startsWith('/en/') ? relativePath.slice(3) || '/' : relativePath;
+const otherLocale: Locale = locale === 'ru' ? 'en' : 'ru';
+const is404 = ['/404', '/404/', '/404.html'].includes(localePath);
+const languageHref = is404 ? (otherLocale === 'en' ? '/en/404/' : '/404.html') : localizedPath(otherLocale, localePath);
+const items = navigation[locale];
+const copy = ui[locale];
+const normalizePath = (path: string) => (path.endsWith('/') ? path : `${path}/`);
 const isActive = (href: string) => {
-  const target = normalizePath(withBase(href));
+  const target = normalizePath(withBase(localizedPath(locale, href)));
   const current = normalizePath(currentPath);
-  return current === target || (target !== withBase('/') && current.startsWith(target));
+  return current === target || (href !== '/' && current.startsWith(target));
 };
 ---
 
-<header class="site-header sticky top-0 z-50 border-b backdrop-blur-xl" data-site-header>
-  <div class="container flex h-16 items-center justify-between gap-6">
-    <a href={withBase('/')} class="site-brand group flex items-center gap-3 font-black" aria-label="Timur Khairullin home">
+<header
+  class="site-header sticky top-0 z-50 border-b backdrop-blur-xl"
+  data-site-header
+  data-locale={locale}
+  data-home-path={withBase(localizedPath(locale, '/'))}
+  data-ru-home={withBase('/')}
+  data-en-home={withBase('/en/')}
+>
+  <div class="container flex h-16 items-center justify-between gap-4">
+    <a href={withBase(localizedPath(locale, '/'))} class="site-brand group flex items-center gap-3 font-black" aria-label={`${siteConfig.name} — ${copy.productDesigner}`}>
       <span class="site-logo grid size-9 place-items-center rounded-lg text-sm transition group-hover:scale-105">TK</span>
       <span class="site-brand-text hidden sm:inline">Timur Khairullin</span>
     </a>
 
-    <nav class="site-nav hidden items-center gap-7 text-sm font-semibold md:flex" aria-label="Main navigation">
-      {navigation.map((item) => <a class="transition" href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
+    <nav class="site-nav hidden items-center gap-6 text-sm font-semibold lg:flex" aria-label={locale === 'ru' ? 'Основная навигация' : 'Main navigation'}>
+      {items.map((item) => (
+        <a class="transition" href={withBase(localizedPath(locale, item.href))} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
     </nav>
 
-    <a
-      class="site-action hidden min-h-10 items-center gap-2 rounded-lg border px-4 py-2 text-sm font-bold transition hover:-translate-y-0.5 md:inline-flex"
-      href={withBase('/contact/')}
-    >
-      <Send size={16} aria-hidden="true" />
-      Написать
-    </a>
+    <div class="hidden items-center gap-2 md:flex">
+      <a
+        class="language-switch inline-flex min-h-10 items-center gap-2 rounded-lg border px-3 py-2 text-sm font-black transition"
+        href={withBase(languageHref)}
+        hreflang={otherLocale}
+        lang={otherLocale}
+        aria-label={copy.languageLabel}
+        data-language-switch={otherLocale}
+      >
+        <Languages size={16} aria-hidden="true" />
+        {otherLocale.toUpperCase()}
+      </a>
+      <a class="site-action inline-flex min-h-10 items-center gap-2 rounded-lg border px-4 py-2 text-sm font-bold transition hover:-translate-y-0.5" href={`mailto:${siteConfig.email}`}>
+        <Mail size={16} aria-hidden="true" />
+        {copy.contact}
+      </a>
+    </div>
 
-    <details class="relative md:hidden">
-      <summary class="site-menu-trigger grid size-10 cursor-pointer list-none place-items-center rounded-lg border" aria-label="Open navigation">
+    <details class="relative lg:hidden">
+      <summary class="site-menu-trigger grid size-10 cursor-pointer list-none place-items-center rounded-lg border" aria-label={locale === 'ru' ? 'Открыть навигацию' : 'Open navigation'}>
         <Menu size={20} aria-hidden="true" />
       </summary>
-      <div class="site-mobile-menu absolute right-0 mt-3 w-56 rounded-lg border p-2 shadow-soft">
-        {navigation.map((item) => <a class="block rounded-md px-3 py-3 text-sm font-semibold" href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
+      <div class="site-mobile-menu absolute right-0 mt-3 w-64 rounded-lg border p-2 shadow-soft">
+        {items.map((item) => (
+          <a class="block rounded-md px-3 py-3 text-sm font-semibold" href={withBase(localizedPath(locale, item.href))} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+        ))}
+        <div class="my-2 border-t border-current opacity-10"></div>
+        <a class="flex items-center gap-2 rounded-md px-3 py-3 text-sm font-black" href={withBase(languageHref)} hreflang={otherLocale} lang={otherLocale} data-language-switch={otherLocale}>
+          <Languages size={16} aria-hidden="true" /> {otherLocale.toUpperCase()}
+        </a>
+        <a class="flex items-center gap-2 rounded-md px-3 py-3 text-sm font-black" href={`mailto:${siteConfig.email}`}>
+          <Mail size={16} aria-hidden="true" /> {copy.contact}
+        </a>
       </div>
     </details>
   </div>
@@ -47,9 +83,23 @@ const isActive = (href: string) => {
 
 <script>
   const header = document.querySelector('[data-site-header]');
-  const updateHeader = () => {
-    header?.classList.toggle('is-scrolled', window.scrollY > 24);
-  };
+  const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
   updateHeader();
   window.addEventListener('scroll', updateHeader, { passive: true });
+  if (header instanceof HTMLElement) {
+    const savedLanguage = localStorage.getItem('portfolio-language');
+    const currentLanguage = header.dataset.locale;
+    const homePath = header.dataset.homePath?.replace(/\/$/, '') || '/';
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    if (savedLanguage && savedLanguage !== currentLanguage && currentPath === homePath) {
+      const target = savedLanguage === 'en' ? header.dataset.enHome : header.dataset.ruHome;
+      if (target) window.location.replace(target);
+    }
+  }
+  document.querySelectorAll<HTMLElement>('[data-language-switch]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const language = link.dataset.languageSwitch;
+      if (language) localStorage.setItem('portfolio-language', language);
+    });
+  });
 </script>

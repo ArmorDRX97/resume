@@ -1,58 +1,50 @@
 ---
-import { MessageCircle, Phone, Send } from '@lucide/astro';
-import { navigation } from '@/data/navigation';
-import { contact } from '@/data/contact';
+import { Mail, Send } from '@lucide/astro';
+import { localizedPath, navigation, siteConfig, ui, type Locale } from '@/data/site';
 import { withBase } from '@/utils/path';
+
+const { locale = 'ru' } = Astro.props as { locale?: Locale };
+const copy = ui[locale];
 const year = new Date().getFullYear();
-const phoneDigits = contact.phone.replace(/\D/g, '');
-const phoneHref = `tel:+${phoneDigits}`;
-const whatsapp = `https://wa.me/${phoneDigits}`;
 ---
 
 <footer class="dark-band border-t border-white/10">
-  <div class="container grid gap-10 py-14 md:grid-cols-[1.3fr_0.7fr_0.7fr]">
+  <div class="container grid gap-10 py-14 md:grid-cols-[1.35fr_0.65fr_0.65fr]">
     <div>
-      <p class="text-sm font-bold uppercase tracking-[0.08em] text-cyan">UI/UX Designer & Product Developer</p>
-      <h2 class="mt-4 max-w-xl text-2xl font-black leading-tight text-white">
-        Проектирую интерфейсы, которые можно не только показать, но и внедрить.
-      </h2>
+      <p class="text-sm font-bold uppercase tracking-[0.08em] text-cyan">Product Designer</p>
+      <h2 class="mt-4 max-w-xl text-2xl font-black leading-tight text-white">{copy.footerTitle}</h2>
       <div class="mt-6 flex flex-wrap gap-3">
-        <a class="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-bold text-ink" href={phoneHref}>
-          <Phone size={16} aria-hidden="true" />
-          Позвонить
+        <a class="inline-flex min-h-11 items-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-bold text-ink" href={`mailto:${siteConfig.email}`}>
+          <Mail size={16} aria-hidden="true" />
+          {siteConfig.email}
         </a>
-        <a class="inline-flex items-center gap-2 rounded-lg border border-white/15 px-4 py-3 text-sm font-bold text-white" href={whatsapp} target="_blank" rel="noreferrer">
-          <MessageCircle size={16} aria-hidden="true" />
-          WhatsApp
-        </a>
-        <a class="inline-flex items-center gap-2 rounded-lg border border-white/15 px-4 py-3 text-sm font-bold text-white" href={contact.telegram} target="_blank" rel="noreferrer">
-          <Send size={16} aria-hidden="true" />
-          Telegram
+        <a class="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/15 px-4 py-3 text-sm font-bold text-white" href={siteConfig.telegram} target="_blank" rel="noreferrer">
+          <Send size={16} aria-hidden="true" /> Telegram
         </a>
       </div>
     </div>
 
     <div>
-      <p class="mb-4 text-sm font-bold text-white">Навигация</p>
-      <nav class="grid gap-3 text-sm text-slate-300">
-        {navigation.map((item) => <a class="hover:text-white" href={withBase(item.href)}>{item.label}</a>)}
+      <p class="mb-4 text-sm font-bold text-white">{copy.navigation}</p>
+      <nav class="grid gap-3 text-sm text-slate-300" aria-label={copy.navigation}>
+        {navigation[locale].map((item) => <a class="hover:text-white" href={withBase(localizedPath(locale, item.href))}>{item.label}</a>)}
       </nav>
     </div>
 
     <div>
-      <p class="mb-4 text-sm font-bold text-white">Контакты</p>
+      <p class="mb-4 text-sm font-bold text-white">{copy.contacts}</p>
       <div class="grid gap-3 text-sm text-slate-300">
-        <a class="hover:text-white" href={phoneHref}>Телефон: {contact.phone}</a>
-        <a class="hover:text-white" href={whatsapp} target="_blank" rel="noreferrer">WhatsApp: {contact.phone}</a>
-        <a class="hover:text-white" href={contact.telegram} target="_blank" rel="noreferrer">Telegram: @KTR_D7</a>
-        <span>{contact.city}</span>
+        <a class="hover:text-white" href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+        <a class="hover:text-white" href={siteConfig.telegram} target="_blank" rel="noreferrer">Telegram: @KTR_D7</a>
+        <span>{siteConfig.city[locale]}</span>
       </div>
     </div>
   </div>
   <div class="border-t border-white/10 py-5">
     <div class="container flex flex-wrap items-center justify-between gap-3 text-sm text-slate-400">
       <span>© {year} Timur Khairullin</span>
-      <span>Design, frontend and AI workflow</span>
+      <span>{copy.positioning}</span>
     </div>
   </div>
 </footer>
+

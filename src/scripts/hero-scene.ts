@@ -1,188 +1,113 @@
-import * as THREE from 'three';
-
 const canvas = document.querySelector<HTMLCanvasElement>('[data-hero-scene]');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (canvas && !reduceMotion) {
-  const isContactTheme = canvas.dataset.waveTheme === 'contact';
-  const pointColor = isContactTheme ? 0xf0abfc : 0x7ee7ff;
-  const lineColor = isContactTheme ? 0x8b5cf6 : 0x20d4f6;
-  const glowColor = isContactTheme ? 0xfb7185 : 0xa3e635;
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 100);
-  camera.position.set(0, 3.15, 8.2);
-  camera.lookAt(0, -0.55, 0);
-
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha: true,
-    antialias: true,
-  });
-  renderer.setClearColor(0x000000, 0);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  const group = new THREE.Group();
-  group.rotation.x = -0.68;
-  group.position.y = -1.35;
-  scene.add(group);
-
-  const columns = 98;
-  const rows = 38;
-  const width = 32;
-  const depth = 12;
-  const pointCount = columns * rows;
-  const basePositions = new Float32Array(pointCount * 3);
-  const pointPositions = new Float32Array(pointCount * 3);
-
-  for (let row = 0; row < rows; row += 1) {
-    for (let col = 0; col < columns; col += 1) {
-      const index = row * columns + col;
-      const x = (col / (columns - 1) - 0.5) * width;
-      const y = (row / (rows - 1) - 0.5) * depth;
-      basePositions[index * 3] = x;
-      basePositions[index * 3 + 1] = y;
-      basePositions[index * 3 + 2] = 0;
-      pointPositions[index * 3] = x;
-      pointPositions[index * 3 + 1] = y;
-      pointPositions[index * 3 + 2] = 0;
-    }
-  }
-
-  const pointsGeometry = new THREE.BufferGeometry();
-  pointsGeometry.setAttribute('position', new THREE.BufferAttribute(pointPositions, 3));
-  const points = new THREE.Points(
-    pointsGeometry,
-    new THREE.PointsMaterial({
-      color: pointColor,
-      size: 0.048,
-      transparent: true,
-      opacity: 0.78,
-      sizeAttenuation: true,
-      blending: THREE.AdditiveBlending,
-    }),
-  );
-  group.add(points);
-
-  const diagonalCount = (columns - 1) * (rows - 1);
-  const segmentCount = (columns - 1) * rows + (rows - 1) * columns + diagonalCount;
-  const linePositions = new Float32Array(segmentCount * 2 * 3);
-  const linesGeometry = new THREE.BufferGeometry();
-  linesGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-  const lines = new THREE.LineSegments(
-    linesGeometry,
-    new THREE.LineBasicMaterial({
-      color: lineColor,
-      transparent: true,
-      opacity: 0.22,
-      blending: THREE.AdditiveBlending,
-    }),
-  );
-  group.add(lines);
-
-  const glowGeometry = new THREE.BufferGeometry();
-  const glowPositions = new Float32Array(columns * 3);
-  glowGeometry.setAttribute('position', new THREE.BufferAttribute(glowPositions, 3));
-  const glowLine = new THREE.Line(
-    glowGeometry,
-    new THREE.LineBasicMaterial({
-      color: glowColor,
-      transparent: true,
-      opacity: 0.28,
-      blending: THREE.AdditiveBlending,
-    }),
-  );
-  group.add(glowLine);
-
-  const pointer = new THREE.Vector2();
-  const target = new THREE.Vector2();
+  const context = canvas.getContext('2d', { alpha: true });
+  let width = 0;
+  let height = 0;
+  let pixelRatio = 1;
+  let frame = 0;
+  let pointerX = 0;
+  let pointerY = 0;
+  let targetX = 0;
+  let targetY = 0;
 
   const resize = () => {
     const parent = canvas.parentElement;
-    const viewportWidth = Math.max(parent?.clientWidth ?? canvas.clientWidth, 320);
-    const viewportHeight = Math.max(parent?.clientHeight ?? canvas.clientHeight, 420);
-    renderer.setSize(viewportWidth, viewportHeight, false);
-    camera.aspect = viewportWidth / viewportHeight;
-    camera.updateProjectionMatrix();
+    width = Math.max(parent?.clientWidth ?? window.innerWidth, 320);
+    height = Math.max(parent?.clientHeight ?? window.innerHeight, 520);
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    context?.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   };
 
   const onPointerMove = (event: PointerEvent) => {
-    target.x = (event.clientX / window.innerWidth - 0.5) * 2;
-    target.y = -(event.clientY / window.innerHeight - 0.5) * 2;
+    targetX = event.clientX / Math.max(window.innerWidth, 1) - 0.5;
+    targetY = event.clientY / Math.max(window.innerHeight, 1) - 0.5;
   };
 
-  window.addEventListener('resize', resize);
-  window.addEventListener('pointermove', onPointerMove);
-  resize();
+  const draw = (timestamp: number) => {
+    if (!context) return;
+    const time = timestamp * 0.00042;
+    pointerX += (targetX - pointerX) * 0.035;
+    pointerY += (targetY - pointerY) * 0.035;
+    context.clearRect(0, 0, width, height);
 
-  const updateLines = () => {
-    const positions = pointsGeometry.attributes.position.array as Float32Array;
-    let offset = 0;
+    const columns = width < 640 ? 22 : 40;
+    const rows = width < 640 ? 22 : 28;
+    const points: { x: number; y: number }[][] = [];
+    const horizon = height * 0.08;
+    const fieldHeight = height * 0.96;
+
     for (let row = 0; row < rows; row += 1) {
-      for (let col = 0; col < columns - 1; col += 1) {
-        const a = row * columns + col;
-        const b = a + 1;
-        linePositions.set(positions.subarray(a * 3, a * 3 + 3), offset);
-        linePositions.set(positions.subarray(b * 3, b * 3 + 3), offset + 3);
-        offset += 6;
+      const rowPoints: { x: number; y: number }[] = [];
+      const depth = row / (rows - 1);
+      const perspective = 0.7 + depth * 0.65;
+      for (let column = 0; column < columns; column += 1) {
+        const progress = column / (columns - 1);
+        const baseX = (progress - 0.5) * width * perspective + width * 0.5;
+        const baseY = horizon + depth * fieldHeight;
+        const wave =
+          Math.sin(progress * 11 + time * 2.1) * (16 + depth * 12) +
+          Math.cos(depth * 8.5 - time * 1.6) * (9 + depth * 10) +
+          Math.sin((progress + depth) * 12 - time * 2.8) * 5;
+        rowPoints.push({
+          x: baseX + pointerX * 22 * depth,
+          y: baseY + wave + pointerY * 14 * depth,
+        });
+      }
+      points.push(rowPoints);
+    }
+
+    context.lineWidth = 0.8;
+    context.strokeStyle = 'rgba(67, 211, 238, 0.18)';
+    for (const row of points) {
+      context.beginPath();
+      row.forEach((point, index) => index === 0 ? context.moveTo(point.x, point.y) : context.lineTo(point.x, point.y));
+      context.stroke();
+    }
+    for (let column = 0; column < columns; column += 1) {
+      context.beginPath();
+      points.forEach((row, index) => index === 0 ? context.moveTo(row[column].x, row[column].y) : context.lineTo(row[column].x, row[column].y));
+      context.stroke();
+    }
+
+    context.fillStyle = 'rgba(126, 231, 255, 0.55)';
+    for (let row = 0; row < rows; row += 2) {
+      for (let column = 0; column < columns; column += 2) {
+        const point = points[row][column];
+        context.beginPath();
+        context.arc(point.x, point.y, 1.1, 0, Math.PI * 2);
+        context.fill();
       }
     }
-    for (let row = 0; row < rows - 1; row += 1) {
-      for (let col = 0; col < columns; col += 1) {
-        const a = row * columns + col;
-        const b = a + columns;
-        linePositions.set(positions.subarray(a * 3, a * 3 + 3), offset);
-        linePositions.set(positions.subarray(b * 3, b * 3 + 3), offset + 3);
-        offset += 6;
-      }
-    }
-    for (let row = 0; row < rows - 1; row += 1) {
-      for (let col = 0; col < columns - 1; col += 1) {
-        const a = row * columns + col;
-        const b = a + columns + 1;
-        linePositions.set(positions.subarray(a * 3, a * 3 + 3), offset);
-        linePositions.set(positions.subarray(b * 3, b * 3 + 3), offset + 3);
-        offset += 6;
-      }
-    }
-    linesGeometry.attributes.position.needsUpdate = true;
+
+    const highlightRow = points[Math.floor(rows * 0.52)];
+    const gradient = context.createLinearGradient(0, 0, width, 0);
+    gradient.addColorStop(0, 'rgba(79, 140, 255, 0)');
+    gradient.addColorStop(0.48, 'rgba(32, 212, 246, 0.42)');
+    gradient.addColorStop(1, 'rgba(163, 230, 53, 0)');
+    context.strokeStyle = gradient;
+    context.lineWidth = 1.4;
+    context.beginPath();
+    highlightRow.forEach((point, index) => index === 0 ? context.moveTo(point.x, point.y) : context.lineTo(point.x, point.y));
+    context.stroke();
+
+    frame = window.requestAnimationFrame(draw);
   };
 
-  const clock = new THREE.Clock();
+  const updateVisibility = () => {
+    window.cancelAnimationFrame(frame);
+    if (!document.hidden) frame = window.requestAnimationFrame(draw);
+  };
 
-  renderer.setAnimationLoop(() => {
-    const elapsed = clock.getElapsedTime();
-    pointer.lerp(target, 0.052);
-
-    for (let index = 0; index < pointCount; index += 1) {
-      const x = basePositions[index * 3];
-      const y = basePositions[index * 3 + 1];
-      const distance = Math.hypot(x - pointer.x * 4.5, y - pointer.y * 2.8);
-      pointPositions[index * 3] = x + pointer.x * 0.16;
-      pointPositions[index * 3 + 1] = y;
-      pointPositions[index * 3 + 2] =
-        Math.sin(x * 0.62 + elapsed * 0.82) * 0.62 +
-        Math.cos(y * 1.05 + elapsed * 0.68) * 0.34 +
-        Math.sin(distance * 1.35 - elapsed * 1.35) * 0.26;
-    }
-
-    pointsGeometry.attributes.position.needsUpdate = true;
-    updateLines();
-
-    const positions = pointsGeometry.attributes.position.array as Float32Array;
-    const centerRow = Math.floor(rows * 0.52);
-    for (let col = 0; col < columns; col += 1) {
-      const source = centerRow * columns + col;
-      glowPositions[col * 3] = positions[source * 3];
-      glowPositions[col * 3 + 1] = positions[source * 3 + 1] + 0.04;
-      glowPositions[col * 3 + 2] = positions[source * 3 + 2] + 0.08;
-    }
-    glowGeometry.attributes.position.needsUpdate = true;
-
-    group.rotation.z = pointer.x * 0.035;
-    group.position.x = pointer.x * 0.24;
-    group.position.y = -1.42 + pointer.y * 0.1;
-
-    renderer.render(scene, camera);
-  });
+  window.addEventListener('resize', resize, { passive: true });
+  window.addEventListener('pointermove', onPointerMove, { passive: true });
+  document.addEventListener('visibilitychange', updateVisibility);
+  resize();
+  frame = window.requestAnimationFrame(draw);
 }
+

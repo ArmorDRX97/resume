@@ -1,0 +1,42 @@
+---
+import { ArrowUpRight, Mail, MessageCircle, Phone, Send } from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { siteConfig, type Locale } from '@/data/site';
+
+const { locale = 'ru' } = Astro.props as { locale?: Locale };
+const phoneDigits = siteConfig.phone.replace(/\D/g, '');
+const whatsapp = `https://wa.me/${phoneDigits}`;
+const cards = [
+  { label: 'Email', value: siteConfig.email, href: `mailto:${siteConfig.email}`, icon: Mail, primary: true },
+  ...(siteConfig.linkedin ? [{ label: 'LinkedIn', value: 'LinkedIn', href: siteConfig.linkedin, icon: ArrowUpRight, primary: false }] : []),
+  ...(siteConfig.resumeUrl ? [{ label: 'CV', value: locale === 'ru' ? 'Скачать PDF' : 'Download PDF', href: siteConfig.resumeUrl, icon: ArrowUpRight, primary: false }] : []),
+  { label: 'Telegram', value: '@KTR_D7', href: siteConfig.telegram, icon: Send, primary: false },
+  { label: 'WhatsApp', value: siteConfig.phone, href: whatsapp, icon: MessageCircle, primary: false },
+  { label: locale === 'ru' ? 'Телефон' : 'Phone', value: siteConfig.phone, href: `tel:+${phoneDigits}`, icon: Phone, primary: false },
+];
+---
+
+<BaseLayout locale={locale} title={locale === 'ru' ? 'Контакты — Timur Khairullin' : 'Contact — Timur Khairullin'}>
+  <section class="section dark-band min-h-[70vh]">
+    <div class="container grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
+      <div class="reveal">
+        <p class="eyebrow text-cyan">Contact</p>
+        <h1 class="mt-4 text-balance text-5xl font-black leading-tight text-white md:text-7xl">{locale === 'ru' ? 'Обсудим продукт, роль или проект' : 'Let’s discuss a product, role or project'}</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{locale === 'ru' ? 'Для профессионального контакта удобнее всего email. Telegram и WhatsApp остаются быстрыми дополнительными каналами.' : 'Email is the preferred channel for professional inquiries. Telegram and WhatsApp remain available for quick follow-up.'}</p>
+        <p class="mt-5 text-sm font-bold text-slate-400">{siteConfig.city[locale]}</p>
+      </div>
+      <div class="reveal grid gap-4 sm:grid-cols-2">
+        {cards.map((item) => {
+          const Icon = item.icon;
+          return (
+            <a class={`contact-card group flex min-h-36 flex-col justify-between rounded-lg border p-5 transition ${item.primary ? 'border-cyan/30 bg-white text-ink sm:col-span-2' : 'border-white/10 bg-white/8 text-white'}`} href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noreferrer' : undefined}>
+              <div class="flex items-center justify-between"><span class={`text-sm font-black ${item.primary ? 'text-blue' : 'text-cyan'}`}>{item.label}</span><Icon size={20} aria-hidden="true" /></div>
+              <strong class="mt-6 break-words text-xl">{item.value}</strong>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+

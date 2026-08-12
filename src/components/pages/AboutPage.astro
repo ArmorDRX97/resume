@@ -1,0 +1,79 @@
+---
+import { ArrowUpRight, Boxes, Braces, Network, PenTool } from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Badge from '@/components/ui/Badge.astro';
+import { localizedPath, type Locale } from '@/data/site';
+import { withBase } from '@/utils/path';
+
+const { locale = 'ru' } = Astro.props as { locale?: Locale };
+const principles = locale === 'ru'
+  ? [
+      ['Разобраться до макета', 'Сначала требования, сущности, роли и ограничения; затем структура и визуальный слой.'],
+      ['Проектировать систему', 'Состояния и повторяемые паттерны важнее набора изолированных красивых экранов.'],
+      ['Проверять дальше Figma', 'Технический прототип помогает увидеть поведение, данные и responsive-ограничения раньше.'],
+      ['Передавать без потери смысла', 'Решение должно быть понятно аналитикам, разработчикам и людям, которые продолжат продукт.'],
+    ]
+  : [
+      ['Understand before drawing', 'Requirements, entities, roles and constraints come before structure and visual design.'],
+      ['Design a system', 'States and reusable patterns matter more than a collection of isolated polished screens.'],
+      ['Go beyond Figma', 'A technical prototype can reveal behavior, data and responsive constraints earlier.'],
+      ['Handoff without losing intent', 'The solution should remain clear to analysts, developers and the people evolving the product.'],
+    ];
+const icons = [Network, Boxes, Braces, PenTool];
+---
+
+<BaseLayout locale={locale} title={locale === 'ru' ? 'Обо мне — Timur Khairullin' : 'About — Timur Khairullin'}>
+  <section class="section bg-white">
+    <div class="container grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
+      <div class="reveal about-photo-card">
+        <div class="about-photo-frame">
+          <img src={withBase('/images/photo.png')} alt={locale === 'ru' ? 'Тимур Хайруллин' : 'Timur Khairullin'} decoding="async" />
+          <span class="about-photo-scan" aria-hidden="true"></span>
+          <div class="about-photo-caption"><span>Product Designer</span><span>Astana · Remote</span></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">About</p>
+        <h1 class="mt-4 text-balance text-5xl font-black leading-tight text-ink md:text-7xl">{locale === 'ru' ? 'Product Designer между бизнесом, UX и разработкой' : 'A Product Designer between business, UX and engineering'}</h1>
+        <div class="mt-7 grid gap-5 text-lg leading-8 text-muted">
+          {locale === 'ru' ? (
+            <>
+              <p>Я проектирую сложные цифровые продукты: B2B-системы, внутренние сервисы, CRM/ERP, dashboards и web/mobile-интерфейсы.</p>
+              <p>Работаю от требований и бизнес-логики к пользовательским сценариям, структуре интерфейса, UI и согласованной системе компонентов. Для меня хороший экран — это часть работающего продукта, а не отдельная картинка.</p>
+              <p>Frontend background помогает учитывать реальную стоимость решений, обсуждать ограничения с разработчиками и собирать интерактивные прототипы. Это усиливает Product Design, но не заменяет его отдельной frontend-ролью.</p>
+              <p>Дополнительный опыт в visual design и AI-assisted workflow помогает быстрее готовить материалы и варианты, сохраняя решения и финальный контроль за человеком.</p>
+            </>
+          ) : (
+            <>
+              <p>I design complex digital products: B2B systems, internal tools, CRM/ERP, dashboards and web/mobile interfaces.</p>
+              <p>My work moves from requirements and business logic into user flows, interface structure, UI and a coherent component system. A strong screen is part of a working product, not an isolated image.</p>
+              <p>My frontend background helps me account for implementation cost, discuss constraints with developers and build interactive prototypes. It strengthens Product Design without turning it into a separate frontend role.</p>
+              <p>Additional experience in visual design and AI-assisted workflows helps me prepare materials and explore options faster while keeping product decisions and final quality under human control.</p>
+            </>
+          )}
+        </div>
+        <div class="mt-8 flex flex-wrap gap-2">{['B2B', 'Enterprise', 'UX/UI', 'Design Systems', 'Technical Prototyping'].map((tag) => <Badge>{tag}</Badge>)}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-slate-50">
+    <div class="container">
+      <p class="eyebrow">Working principles</p>
+      <h2 class="mt-4 max-w-4xl text-balance text-3xl font-black text-ink md:text-5xl">{locale === 'ru' ? 'Как я принимаю дизайн-решения' : 'How I make design decisions'}</h2>
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        {principles.map(([title, text], index) => {
+          const Icon = icons[index];
+          return (
+            <article class="reveal rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
+              <Icon size={22} class="text-blue" aria-hidden="true" />
+              <h3 class="mt-5 text-2xl font-black text-ink">{title}</h3>
+              <p class="mt-3 leading-7 text-muted">{text}</p>
+            </article>
+          );
+        })}
+      </div>
+      <a class="mt-8 inline-flex min-h-11 items-center gap-2 font-black text-blue" href={withBase(localizedPath(locale, '/cases/'))}>{locale === 'ru' ? 'Посмотреть решения в кейсах' : 'See decisions in case studies'} <ArrowUpRight size={17} /></a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,79 @@
+---
+import { ExternalLink, ShieldCheck } from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Badge from '@/components/ui/Badge.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import ProjectCard from '@/components/cards/ProjectCard.astro';
+import { caseStudies, featuredCases, selectedWork } from '@/data/projects';
+import { withBase } from '@/utils/path';
+import type { Locale } from '@/data/site';
+
+const { locale = 'ru' } = Astro.props as { locale?: Locale };
+const otherCases = caseStudies.filter((item) => !item.featured);
+const title = locale === 'ru' ? 'Работы и кейсы — Timur Khairullin' : 'Work and case studies — Timur Khairullin';
+const description = locale === 'ru'
+  ? 'Product Design кейсы: сложные B2B-системы, ERP, CRM, dashboards, web/mobile и техническое прототипирование.'
+  : 'Product Design case studies across complex B2B systems, ERP, CRM, dashboards, web/mobile and technical prototyping.';
+---
+
+<BaseLayout locale={locale} title={title} description={description}>
+  <section class="section dark-band">
+    <div class="container grid gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-end">
+      <div class="reveal">
+        <p class="eyebrow text-cyan">Work</p>
+        <h1 class="mt-4 text-balance text-5xl font-black leading-tight text-white md:text-7xl">{locale === 'ru' ? 'Кейсы и выбранные работы' : 'Case studies and selected work'}</h1>
+      </div>
+      <div class="reveal">
+        <p class="text-xl font-bold leading-8 text-white">{locale === 'ru' ? 'Продуктовая глубина, личный вклад и решения — отдельно. Публичные визуальные работы — отдельно.' : 'Product thinking, personal contribution and decisions are shown separately from the broader visual archive.'}</p>
+        <p class="mt-4 leading-7 text-slate-300">{locale === 'ru' ? 'Так можно быстро отличить полноценный case study от проекта, где доступна только публичная ссылка или Figma-концепция.' : 'This makes it clear which projects are full case studies and which are represented by a public link or Figma concept.'}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <SectionTitle eyebrow="Featured Case Studies" title={locale === 'ru' ? 'Три ключевых продуктовых кейса' : 'Three core product cases'} text={locale === 'ru' ? 'Контекст, проблема, ограничения, личный вклад, ключевые решения и только подтверждённый результат.' : 'Context, problem, constraints, personal contribution, key decisions and verified outcomes only.'} />
+      <div class="mt-10 grid gap-7 lg:grid-cols-3" data-portfolio-grid>
+        {featuredCases.map((project) => <div data-portfolio-card><ProjectCard project={project} locale={locale} featured /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-slate-50">
+    <div class="container">
+      <div class="mb-10 grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+        <SectionTitle eyebrow="Case Studies" title={locale === 'ru' ? 'Другие продуктовые задачи' : 'Additional product work'} text={locale === 'ru' ? 'Кейсы с подтверждённым контекстом и вкладом. Детали, которых нет в исходных данных, не подменяются предположениями.' : 'Cases with confirmed context and contribution. Missing details are not replaced with assumptions.'} />
+        <div class="flex gap-3 rounded-lg border border-blue/20 bg-white p-5 text-sm leading-6 text-muted">
+          <ShieldCheck class="mt-0.5 shrink-0 text-blue" size={20} aria-hidden="true" />
+          <p>{locale === 'ru' ? 'NDA-кейсы используют обобщённые описания и не раскрывают закрытые данные, внутренние экраны или продуктовые метрики.' : 'NDA cases use generalized descriptions and do not expose private data, internal screens or product metrics.'}</p>
+        </div>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {otherCases.map((project) => <ProjectCard project={project} locale={locale} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <SectionTitle eyebrow="Selected Work" title={locale === 'ru' ? 'Публичные проекты и архив' : 'Public projects and archive'} text={locale === 'ru' ? 'Сайты и Figma-работы сохраняют полезный визуальный контекст, но не конкурируют с основными Product Design кейсами.' : 'Public websites and Figma work preserve useful visual context without competing with the main Product Design cases.'} />
+      <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {selectedWork.map((item) => (
+          <article class="reveal selected-work-card grid h-full overflow-hidden rounded-lg border border-slate-200 bg-white p-3 shadow-soft">
+            <a class="group relative overflow-hidden rounded-lg border border-slate-200 bg-slate-100 aspect-[16/10]" href={item.url} target="_blank" rel="noreferrer" aria-label={`${locale === 'ru' ? 'Открыть' : 'Open'} ${item.title}`}>
+              <img src={withBase(item.cover)} alt={`${item.title} — ${item.type[locale]}`} loading="lazy" decoding="async" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105" />
+            </a>
+            <div class="grid content-start gap-4 p-4">
+              <div><p class="text-sm font-black text-blue">{item.type[locale]}</p><h2 class="mt-2 text-2xl font-black text-ink">{item.title}</h2><p class="mt-2 text-sm font-bold text-slate-500">{item.role[locale]}</p></div>
+              <p class="leading-7 text-muted">{item.value[locale]}</p>
+              <div class="flex flex-wrap gap-2">{item.tags.map((tag) => <Badge>{tag}</Badge>)}</div>
+              <a class="mt-auto inline-flex min-h-11 items-center gap-2 border-t border-slate-100 pt-4 text-sm font-black text-blue" href={item.url} target="_blank" rel="noreferrer">
+                {locale === 'ru' ? 'Открыть оригинал' : 'Open original'} <ExternalLink size={16} aria-hidden="true" />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

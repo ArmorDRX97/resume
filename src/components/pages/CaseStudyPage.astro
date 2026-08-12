@@ -1,0 +1,69 @@
+---
+import { ArrowLeft, CircleCheck, ShieldCheck } from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Badge from '@/components/ui/Badge.astro';
+import MockupFrame from '@/components/media/MockupFrame.astro';
+import type { CaseStudy } from '@/data/projects';
+import { localizedPath, type Locale } from '@/data/site';
+import { withBase } from '@/utils/path';
+
+const { project, locale = 'ru' } = Astro.props as { project: CaseStudy; locale?: Locale };
+const labels = locale === 'ru'
+  ? {
+      back: 'Все работы', overview: 'Overview', context: 'Контекст', problem: 'Задача', constraints: 'Ограничения', contribution: 'Мой вклад', thinking: 'Product / UX thinking', decisions: 'Ключевые решения', ui: 'Интерфейс', designSystem: 'Design System', collaboration: 'Работа с разработкой', result: 'Результат', company: 'Компания', role: 'Роль', platform: 'Платформа', industry: 'Индустрия', period: 'Период', note: 'На странице нет выдуманных метрик: результат описан только по доступным исходным данным.',
+    }
+  : {
+      back: 'All work', overview: 'Overview', context: 'Context', problem: 'Problem', constraints: 'Constraints', contribution: 'My contribution', thinking: 'Product / UX thinking', decisions: 'Key decisions', ui: 'Interface', designSystem: 'Design System', collaboration: 'Development collaboration', result: 'Result', company: 'Company', role: 'Role', platform: 'Platform', industry: 'Industry', period: 'Period', note: 'No invented metrics are used: outcomes are described only from the available source information.',
+    };
+---
+
+<BaseLayout locale={locale} title={`${project.title} — ${locale === 'ru' ? 'кейс Product Design' : 'Product Design case study'}`} description={project.summary[locale]}>
+  <section class="section bg-white">
+    <div class="container">
+      <a class="inline-flex min-h-11 items-center gap-2 text-sm font-black text-blue" href={withBase(localizedPath(locale, '/cases/'))}><ArrowLeft size={17} aria-hidden="true" /> {labels.back}</a>
+      <div class="mt-8 grid gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
+        <div class="reveal">
+          <div class="flex flex-wrap gap-2"><Badge>{project.productType[locale]}</Badge>{project.nda && <Badge>NDA-safe</Badge>}</div>
+          <h1 class="mt-5 text-balance text-5xl font-black leading-tight text-ink md:text-7xl">{project.title}</h1>
+          <p class="mt-5 text-xl font-bold leading-8 text-ink">{project.summary[locale]}</p>
+          <p class="mt-4 leading-7 text-muted">{project.role[locale]}</p>
+          <div class="mt-6 flex flex-wrap gap-2">{project.tags.map((tag) => <Badge>{tag}</Badge>)}</div>
+        </div>
+        <div class="reveal">
+          {project.cover ? (
+            <div class="overflow-hidden rounded-lg border border-slate-200 bg-slate-100 shadow-soft"><img src={withBase(project.cover)} alt={`${project.title} — ${project.productType[locale]}`} class="block aspect-[16/10] h-full w-full object-cover object-top" /></div>
+          ) : (
+            <MockupFrame variant={project.visual} title={project.productType[locale]} />
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-slate-50">
+    <div class="container grid gap-8 lg:grid-cols-[0.68fr_1.32fr]">
+      <aside class="reveal h-max rounded-lg border border-slate-200 bg-white p-6 shadow-soft lg:sticky lg:top-24">
+        <p class="eyebrow">{labels.overview}</p>
+        <dl class="mt-6 grid gap-5 text-sm">
+          <div><dt class="font-black text-ink">{labels.company}</dt><dd class="mt-1 text-muted">{project.company}</dd></div>
+          <div><dt class="font-black text-ink">{labels.role}</dt><dd class="mt-1 leading-6 text-muted">{project.role[locale]}</dd></div>
+          <div><dt class="font-black text-ink">{labels.platform}</dt><dd class="mt-1 text-muted">{project.platform[locale]}</dd></div>
+          <div><dt class="font-black text-ink">{labels.industry}</dt><dd class="mt-1 text-muted">{project.industry[locale]}</dd></div>
+          <div><dt class="font-black text-ink">{labels.period}</dt><dd class="mt-1 text-muted">{project.period}</dd></div>
+        </dl>
+      </aside>
+      <div class="grid gap-6">
+        <article class="reveal case-section"><p class="eyebrow">01 · {labels.context}</p><h2>{labels.context}</h2><p>{project.context[locale]}</p></article>
+        <article class="reveal case-section"><p class="eyebrow">02 · {labels.problem}</p><h2>{labels.problem}</h2><p>{project.problem[locale]}</p></article>
+        <article class="reveal case-section"><p class="eyebrow">03 · {labels.constraints}</p><h2>{labels.constraints}</h2><ul>{project.constraints[locale].map((item) => <li><CircleCheck size={18} aria-hidden="true" />{item}</li>)}</ul></article>
+        <article class="reveal case-section case-section--accent"><p class="eyebrow">04 · {labels.contribution}</p><h2>{labels.contribution}</h2><ul>{project.contribution[locale].map((item) => <li><CircleCheck size={18} aria-hidden="true" />{item}</li>)}</ul></article>
+        <article class="reveal case-section"><p class="eyebrow">05 · {labels.thinking}</p><h2>{labels.thinking}</h2><p>{project.thinking[locale]}</p></article>
+        <section class="reveal case-section"><p class="eyebrow">06 · {labels.decisions}</p><h2>{labels.decisions}</h2><div class="mt-6 grid gap-4">{project.decisions[locale].map((decision) => <article class="rounded-lg bg-slate-50 p-5"><h3 class="text-xl font-black text-ink">{decision.title}</h3><p class="mt-2 leading-7 text-muted">{decision.text}</p></article>)}</div></section>
+        <article class="reveal case-section"><p class="eyebrow">07 · {labels.ui}</p><h2>{labels.ui}</h2><p>{locale === 'ru' ? 'Ключевая подача показывает структуру и основные состояния без dumping десятков экранов.' : 'The presentation focuses on structure and key states instead of dumping dozens of screens.'}</p><div class="mt-6"><MockupFrame variant={project.visual} title={project.productType[locale]} /></div></article>
+        {project.designSystem && <article class="reveal case-section"><p class="eyebrow">08 · {labels.designSystem}</p><h2>{labels.designSystem}</h2><p>{project.designSystem[locale]}</p></article>}
+        <article class="reveal case-section"><p class="eyebrow">{project.designSystem ? '09' : '08'} · {labels.collaboration}</p><h2>{labels.collaboration}</h2><p>{project.collaboration[locale]}</p></article>
+        <article class="reveal case-section case-section--result"><p class="eyebrow">{project.designSystem ? '10' : '09'} · {labels.result}</p><h2>{labels.result}</h2><p>{project.result[locale]}</p><div class="mt-6 flex gap-3 rounded-lg border border-blue/20 bg-blue/5 p-4 text-sm leading-6 text-muted"><ShieldCheck class="mt-0.5 shrink-0 text-blue" size={18} aria-hidden="true" />{labels.note}</div></article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

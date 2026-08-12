@@ -1,0 +1,63 @@
+---
+import { CircleCheck } from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Badge from '@/components/ui/Badge.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import { experience } from '@/data/experience';
+import type { Locale } from '@/data/site';
+
+const { locale = 'ru' } = Astro.props as { locale?: Locale };
+const evolution = locale === 'ru'
+  ? ['Web & digital', 'Frontend implementation', 'CRM / ERP', 'Enterprise / B2B', 'Product Design']
+  : ['Web & digital', 'Frontend implementation', 'CRM / ERP', 'Enterprise / B2B', 'Product Design'];
+---
+
+<BaseLayout
+  locale={locale}
+  title={locale === 'ru' ? 'Опыт — Timur Khairullin, Product Designer' : 'Experience — Timur Khairullin, Product Designer'}
+  description={locale === 'ru' ? 'Опыт Product Designer в сложных B2B-системах, CRM/ERP, dashboard-интерфейсах, web/mobile и frontend.' : 'Product Designer experience across complex B2B systems, CRM/ERP, dashboards, web/mobile and frontend.'}
+>
+  <section class="section dark-band">
+    <div class="container grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+      <div class="reveal">
+        <p class="eyebrow text-cyan">Experience</p>
+        <h1 class="mt-4 text-balance text-5xl font-black leading-tight text-white md:text-7xl">{locale === 'ru' ? 'Опыт через эволюцию задач' : 'Experience through the evolution of work'}</h1>
+      </div>
+      <div class="reveal">
+        <p class="text-xl font-bold leading-8 text-white">{locale === 'ru' ? 'От ранних web/digital и frontend-задач — к CRM, ERP, сложным государственным системам и Product Design.' : 'From early web/digital and frontend work to CRM, ERP, complex government systems and Product Design.'}</p>
+        <div class="mt-6 flex flex-wrap gap-2">{evolution.map((item) => <Badge tone="dark">{item}</Badge>)}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <SectionTitle eyebrow="Timeline" title={locale === 'ru' ? 'Компании, роли и вклад' : 'Companies, roles and contribution'} text={locale === 'ru' ? 'Пересекающиеся периоды сохранены как в исходных данных. Формат занятости не показывается, пока он не подтверждён.' : 'Overlapping periods are preserved from the source data. Employment type is intentionally hidden until verified.'} />
+      <div class="mt-10 grid gap-5">
+        {experience.map((item) => (
+          <article class="reveal experience-row rounded-lg border border-slate-200 bg-white p-6 shadow-soft md:p-8">
+            <div>
+              <p class="text-sm font-black text-blue">{item.period[locale]}</p>
+              <h2 class="mt-3 text-3xl font-black leading-tight text-ink">{item.company}</h2>
+              <p class="mt-2 text-sm font-bold text-slate-500">{item.role[locale]}</p>
+              <p class="mt-2 text-sm text-muted">{item.location[locale]}</p>
+              {item.employmentType && <p class="mt-2 text-sm text-muted">{item.employmentType[locale]}</p>}
+              <div class="mt-5 flex flex-wrap gap-2">{item.focus.map((tag) => <Badge>{tag}</Badge>)}</div>
+            </div>
+            <div>
+              <p class="text-lg font-bold leading-8 text-ink">{item.summary[locale]}</p>
+              <ul class="mt-5 grid gap-3">
+                {item.responsibilities[locale].map((point) => (
+                  <li class="flex gap-3 rounded-lg bg-slate-50 p-4">
+                    <CircleCheck size={19} class="mt-1 shrink-0 text-blue" aria-hidden="true" />
+                    <span class="leading-7 text-muted">{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
